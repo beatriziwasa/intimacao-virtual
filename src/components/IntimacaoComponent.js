@@ -133,12 +133,17 @@ export const IntimacaoComponent = () => {
         DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
         POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
 
+        let dataFormatada = "";
+        let dataAudiencia = intimacao.dataAudiencia;
+        dataAudiencia = dataAudiencia.split("-");
+        dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
+        
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%NOME%", intimacao.nome);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CLASSE%", intimacao.classe.toLowerCase());
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CRIME%", intimacao.crime.toLowerCase());
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%SISP%", intimacao.codSISP);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", new Date(intimacao.dataAudiencia).toLocaleDateString());
+        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", dataFormatada);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%HORA%", intimacao.horaAudiencia);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%PROC%", intimacao.codProcedimento);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%N_PROCED%", intimacao.numProcedimento);
@@ -199,8 +204,13 @@ export const IntimacaoComponent = () => {
         DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
         POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
         
+        let dataFormatada = "";
+        let dataAudiencia = intimacao.dataAudiencia;
+        dataAudiencia = dataAudiencia.split("-");
+        dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
+
         mensagemRelembrar = mensagemRelembrar.replaceAll("%NOME%", intimacao.nome);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", new Date(intimacao.dataAudiencia).toLocaleDateString());
+        mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", dataFormatada);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%HORA%", intimacao.horaAudiencia);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%SISP%", intimacao.codSISP);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%N_PROCED%", intimacao.numProcedimento);
