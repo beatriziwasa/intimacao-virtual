@@ -15,6 +15,8 @@ function App() {
       <header className="App-header">
         <img src={logoPCSC}/>
         <h1>INTIMAÇÃO VIRTUAL</h1>
+        <h2>11ª Delegacia de Polícia da Capital - DPTUR</h2>
+        <br/>
         <IntimacaoComponent/>
       </header>
     </div>
