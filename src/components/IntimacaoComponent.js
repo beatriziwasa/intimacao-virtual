@@ -168,10 +168,11 @@ export const IntimacaoComponent = () => {
     }
 
     const enviarLink = (intimacao) => {
-        let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%SISP%-%N_PROCED%-%ANO_PROCED%
+        let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%PROCEDIMENTO%-%SISP%-%N_PROCED%-%ANO_PROCED%
 
         O link ficará ativo momentos antes da data e hora agendadas.`;
         
+        mensagemLink = mensagemLink.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
         mensagemLink = mensagemLink.replaceAll("%SISP%", intimacao.codSISP);
         mensagemLink = mensagemLink.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
