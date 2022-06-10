@@ -25,7 +25,9 @@ export default function BasicModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-            <IncluirIntimacaoComponent handleClose={props.handleClose} 
+            <IncluirIntimacaoComponent
+              handleClose={props.handleClose} 
+              buscarIntimacoes={props.buscarIntimacoes}
               intimacaoSelecionada={props.intimacaoSelecionada} />
         </Box>
       </Modal>

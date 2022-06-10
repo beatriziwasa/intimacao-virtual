@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import Parse from 'parse/dist/parse.min.js';
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
 import BasicModal from './BasicModal';
-
+import { GoogleAPI } from './GoogleAPI';
 
 export const IntimacaoComponent = () => {
 
     useEffect(() => {
         buscarIntimacoes();
-    });
-    
+    }, []);
+
     const [open, setOpen] = React.useState(false);
     const [intimacoes, setIntimacoes] = useState([]);
     const [intimacaoSelecionada, setIntimacaoSelecionada] = useState({});
@@ -30,87 +29,64 @@ export const IntimacaoComponent = () => {
         handleOpen();
     }
     
-    async function buscarIntimacoes() {
-        //event.preventDefault();
-        // create your Parse Query using the Person Class you've created
-        const query = new Parse.Query('Intimacao');
-        // use the equalTo filter to look for user which the name is John. this filter can be used in any data type
-        //query.equalTo('nome', 'Tiago Yugo Iwasa');
-        // run the query
-        const results = await query.find();
-        // access the Parse Object attributes
-        const listaIntimacoes = [];
+    const buscarIntimacoes = () => {
+        GoogleAPI.consultar().then((intimacao) => {
+            const listaIntimacoes = [];
+            for (let i = 0; i < intimacao.length; i++) {
+                let dataHoraTabela = "";
+                let dataFormatada = "";
+                if (!_.isNil(intimacao[i].dataAudiencia)) {
+                    let dataTemp = intimacao[i].dataAudiencia;
+                    dataTemp = dataTemp.split("-");
+                    dataFormatada = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+                }
+                if (!_.isNil(intimacao[i].dataAudiencia) && !_.isNil(intimacao[i].horaAudiencia)) {
+                    dataHoraTabela = dataFormatada.concat(" ").concat(intimacao[i].horaAudiencia);
+                } else if (!_.isNil(intimacao[i].dataAudiencia)) {
+                    dataHoraTabela = dataFormatada;
+                }
         
-        for (const object of results) {
-            
-            let dataHoraTabela = "";
-            let dataFormatada = "";
-            if (!_.isNil(object.get('dataAudiencia')) && !_.isNil(object.get('horaAudiencia'))) {
-                let dataAudiencia = object.get('dataAudiencia');
-                dataAudiencia = dataAudiencia.split("-");
-                dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
-                dataHoraTabela = dataFormatada.concat(" ").concat(object.get('horaAudiencia'));
-            } else if (!_.isNil(object.get('dataAudiencia'))) {
-                let dataAudiencia = object.get('dataAudiencia');
-                dataAudiencia = dataAudiencia.split("-");
-                dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
-                dataHoraTabela = dataFormatada;
-            }
+                let procedimentoTabela = "";
+                if (!_.isNil(intimacao[i].tipoProcedimento)) {
+                    procedimentoTabela = intimacao[i].tipoProcedimento;
+                }
+                if (!_.isNil(intimacao[i].codSISP)) {
+                    procedimentoTabela = procedimentoTabela.concat(" ").concat(intimacao[i].codSISP);
+                }
+                if (!_.isNil(intimacao[i].anoProcedimento)) {
+                    procedimentoTabela = procedimentoTabela.concat(".").concat(intimacao[i].anoProcedimento);
+                }
+                if (!_.isNil(intimacao[i].numProcedimento)) {
+                    procedimentoTabela = procedimentoTabela.concat(".").concat(intimacao[i].numProcedimento);
+                }
 
-            let procedimentoTabela = "";
-            if (!_.isNil(object.get('tipoProcedimento'))) {
-                procedimentoTabela = object.get('tipoProcedimento');
+                const intimacaoJSON = {
+                    'id': intimacao[i].id,
+                    'nome': intimacao[i].nome,
+                    'telefone': intimacao[i].telefone,
+                    'classe': intimacao[i].classe,
+                    'crime': intimacao[i].crime,
+                    'tipoProcedimento': intimacao[i].tipoProcedimento,
+                    'codSISP': intimacao[i].codSISP,
+                    'anoProcedimento': intimacao[i].anoProcedimento,
+                    'numProcedimento': intimacao[i].numProcedimento,
+                    'dataAudiencia': intimacao[i].dataAudiencia,
+                    'horaAudiencia': intimacao[i].horaAudiencia,
+                    'dataHoraTabela': dataHoraTabela,
+                    'procedimentoTabela': procedimentoTabela
+                };
+                listaIntimacoes.push(intimacaoJSON);
             }
-            if (!_.isNil(object.get('codSISP'))) {
-                procedimentoTabela = procedimentoTabela.concat(" ").concat(object.get('codSISP'));
-            }
-            if (!_.isNil(object.get('anoProcedimento'))) {
-                procedimentoTabela = procedimentoTabela.concat(".").concat(object.get('anoProcedimento'));
-            }
-            if (!_.isNil(object.get('numProcedimento'))) {
-                procedimentoTabela = procedimentoTabela.concat(".").concat(object.get('numProcedimento'));
-            }
-
-            const intimacao = {
-                'id': object.id,
-                'nome': object.get('nome'),
-                'telefone': object.get('telefone'),
-                'classe': object.get('classe'),
-                'crime': object.get('crime'),
-                'numProcedimento': object.get('numProcedimento'),
-                'dataAudiencia': object.get('dataAudiencia'),
-                'horaAudiencia': object.get('horaAudiencia'),
-                'codProcedimento': object.get('codProcedimento'),
-                'anoProcedimento': object.get('anoProcedimento'),
-                'tipoProcedimento': object.get('tipoProcedimento'),
-                'codSISP': object.get('codSISP'),
-                'dataHoraTabela': dataHoraTabela,
-                'procedimentoTabela': procedimentoTabela
-            }
-            listaIntimacoes.push(intimacao);
-        }
-        //console.log(`ParseObjects found: ${JSON.stringify(results)}`);
-        //console.log(`Lista de intimações: ${JSON.stringify(listaIntimacoes)}`);
-        setIntimacoes(listaIntimacoes);
+            setIntimacoes(listaIntimacoes);
+        });
     }
 
-    const excluirIntimacoes = async function (event, id) {
-        // Create a new Intimacao parse object instance and set intimacao id
-        const Intimacao = new Parse.Object('Intimacao');
-        Intimacao.set('objectId', id);
-        // .destroy should be called to delete a parse object
-        try {
-          await Intimacao.destroy();
-          alert('Intimação excluída com sucesso!');
-          // Refresh intimacoes to remove this one
-          buscarIntimacoes();
-          return true;
-        } catch (error) {
-          // Error can be caused by lack of Internet connection
-          alert(`Error ${error.message}`);
-          return false;
-        };
-    };
+    const excluirIntimacoes = (id) => {
+        GoogleAPI.excluir(id).then(() => {
+            alert('Intimação excluída com sucesso!');
+            buscarIntimacoes();
+        })
+    }
 
     const enviarPrimeiroContato = (intimacao) => {
         let mensagemPrimeiroContato = `Prezado(a) Sr(a). %NOME%, 
@@ -132,39 +108,18 @@ export const IntimacaoComponent = () => {
         Atenciosamente,
         DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
         POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
-
-        let dataFormatada = "";
-        let dataAudiencia = intimacao.dataAudiencia;
-        dataAudiencia = dataAudiencia.split("-");
-        dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
         
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%NOME%", intimacao.nome);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CLASSE%", intimacao.classe.toLowerCase());
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CRIME%", intimacao.crime.toLowerCase());
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%SISP%", intimacao.codSISP);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", dataFormatada);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%HORA%", intimacao.horaAudiencia);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%PROC%", intimacao.codProcedimento);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
-        
-        /*fetch(mensagem1)
-        .then((r) => r.text())
-        .then(msg  => {
-            console.log(msg)
-            mensagemPrimeiroContato = msg;
-            setMensagem1(msg);
-        });*/
+        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%N_PROCED%", intimacao.numProcedimento);
+        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
+        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%HORA%", intimacao.horaAudiencia);
 
-        let URL = 'https://wa.me';
-        let number = intimacao.telefone;
-        number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
-        let url = "".concat(URL, "/").concat(number);
-        if (mensagemPrimeiroContato) {
-            url += "?text=".concat(encodeURI(mensagemPrimeiroContato));
-        }
-        window.open(url);
+        whatsappAPI(intimacao.telefone, mensagemPrimeiroContato);
     }
 
     const enviarLink = (intimacao) => {
@@ -177,21 +132,7 @@ export const IntimacaoComponent = () => {
         mensagemLink = mensagemLink.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
 
-        /*fetch(mensagem2)
-        .then((r) => r.text())
-        .then(msg  => {
-            console.log(msg)
-            mensagemLink = msg;
-        });*/
-
-        let URL = 'https://wa.me';
-        let number = intimacao.telefone;
-        number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
-        let url = "".concat(URL, "/").concat(number);
-        if (mensagemLink) {
-            url += "?text=".concat(encodeURI(mensagemLink));
-        }
-        window.open(url);
+        whatsappAPI(intimacao.telefone, mensagemLink);
     }
 
     const enviarRelembrar = (intimacao) => {
@@ -205,31 +146,29 @@ export const IntimacaoComponent = () => {
         DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
         POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
         
-        let dataFormatada = "";
-        let dataAudiencia = intimacao.dataAudiencia;
-        dataAudiencia = dataAudiencia.split("-");
-        dataFormatada = dataAudiencia[2].concat("/").concat(dataAudiencia[1]).concat("/").concat(dataAudiencia[0]);
-
         mensagemRelembrar = mensagemRelembrar.replaceAll("%NOME%", intimacao.nome);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", dataFormatada);
+        mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
         mensagemRelembrar = mensagemRelembrar.replaceAll("%HORA%", intimacao.horaAudiencia);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%SISP%", intimacao.codSISP);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
 
-        /*fetch(mensagem3)
-        .then((r) => r.text())
-        .then(msg  => {
-            console.log(msg)
-            mensagemRelembrar = msg;
-        });*/
+        whatsappAPI(intimacao.telefone, mensagemRelembrar);
+    }
 
+    const formatDate = (data) => {
+        let dataTemp = data;
+        dataTemp = dataTemp.split("-");
+        return dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+    }
+
+    const whatsappAPI = (telefone, msg) => {
         let URL = 'https://wa.me';
-        let number = intimacao.telefone;
+        let number = telefone;
         number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
         let url = "".concat(URL, "/").concat(number);
-        if (mensagemRelembrar) {
-            url += "?text=".concat(encodeURI(mensagemRelembrar));
+        if (msg) {
+            url += "?text=".concat(encodeURI(msg));
         }
         window.open(url);
     }
@@ -278,7 +217,7 @@ export const IntimacaoComponent = () => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir esta intimação?') ? excluirIntimacoes(event, rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir esta intimação?') ? excluirIntimacoes(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -316,7 +255,10 @@ export const IntimacaoComponent = () => {
                 />
             </ThemeProvider>
 
-            <BasicModal open={open} handleClose={handleClose} intimacaoSelecionada={intimacaoSelecionada} />
+            <BasicModal open={open}
+                handleClose={handleClose}
+                buscarIntimacoes={buscarIntimacoes}
+                intimacaoSelecionada={intimacaoSelecionada} />
         </div>
     );
-};
+}

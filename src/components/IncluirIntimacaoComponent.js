@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { GoogleAPI } from './GoogleAPI';
 import _ from 'lodash';
-import Parse from 'parse/dist/parse.min.js';
 
 export const IncluirIntimacaoComponent = (props) => {
     
@@ -32,7 +32,7 @@ export const IncluirIntimacaoComponent = (props) => {
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        incluirIntimacao();
+        salvarIntimacao();
     }
 
     const limpar = (event) => {
@@ -42,56 +42,59 @@ export const IncluirIntimacaoComponent = (props) => {
         setTipoProcedimento("");
     }
 
-    async function incluirIntimacao() {
-        try {
-            // create a new Parse Object instance
-            const Intimacao = new Parse.Object('Intimacao');
-            // define the attributes you want for your Object
-            if (!_.isNil(idIntimacao)) { //Para alterar ao inves de incluir
-                Intimacao.set('objectId', idIntimacao);
-            }
-            Intimacao.set('nome', inputs.nome);
-            Intimacao.set('telefone', inputs.telefone);
-            Intimacao.set('classe', classe);
-            Intimacao.set('tipoProcedimento', tipoProcedimento);
-            Intimacao.set('codSISP', inputs.codSISP);
-            Intimacao.set('anoProcedimento', inputs.anoProcedimento);
-            Intimacao.set('numProcedimento', inputs.numProcedimento);
-            Intimacao.set('crime', inputs.crime);
-            Intimacao.set('dataAudiencia', inputs.dataAudiencia);
-            Intimacao.set('horaAudiencia', inputs.horaAudiencia);
-            // save it on Back4App Data Store
-            await Intimacao.save();
-            alert('Intimacao salva com sucesso!!');
-            props.handleClose();
-        } catch (error) {
-            console.log('Erro na inclusão de nova intimacao: ', error);
+    async function salvarIntimacao() {
+        const intimacao = {
+            'nome': inputs.nome,
+            'telefone': inputs.telefone,
+            'classe': classe,
+            'crime': inputs.crime,
+            'tipoProcedimento': tipoProcedimento,
+            'codSISP': inputs.codSISP,
+            'anoProcedimento': inputs.anoProcedimento,
+            'numProcedimento': inputs.numProcedimento,
+            'dataAudiencia': inputs.dataAudiencia,
+            'horaAudiencia': inputs.horaAudiencia
+        };
+        
+        if (_.isNil(idIntimacao)) { //Incluir
+            GoogleAPI.incluir(intimacao).then(() => {
+                alert('Intimação incluída com sucesso!');
+                props.buscarIntimacoes();
+                props.handleClose();
+            });
+        } else { //Alterar
+            intimacao['id'] = idIntimacao;
+            GoogleAPI.alterar(intimacao).then(() => {
+                alert('Intimação alterada com sucesso!');
+                props.buscarIntimacoes();
+                props.handleClose();
+            });
         }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <fieldset>
-                <fieldset class="grupo" style={{display: 'flex', justifyContent: 'center'}}>
-                    <div class="campo">
-                        <label for="nome">Nome:</label>
+                <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="campo">
+                        <label htmlFor="nome">Nome:</label>
                         <input type="text" required id="nome" name="nome" size="51"
                             value={inputs.nome || ""} onChange={handleChange} />
                     </div>
-                    <div class="campo">
-                        <label for="telefone">Telefone:</label>
+                    <div className="campo">
+                        <label htmlFor="telefone">Telefone:</label>
                         <input type="tel" required id="telefone" name="telefone" size="16"
                             pattern="[0-9]{2} [0-9]{2} [0-9]{5}-[0-9]{4}"
                             placeholder="55 XX XXXXX-XXXX"
-                            maxlength="16"
+                            maxLength="16"
                             value={inputs.telefone || ""} onChange={handleChange} />
                         <small>Exemplo: 55 48 99999-9999</small>
                     </div>
                 </fieldset>
 
-                <fieldset class="grupo" style={{display: 'flex', justifyContent: 'center'}}>
-                    <div class="campo">
-                        <label for="classe">Classe:</label>
+                <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="campo">
+                        <label htmlFor="classe">Classe:</label>
                         <select required id="classe" name="classe" value={classe} 
                             onChange={handleChangeSelectClasse}>
                             <option value="">Selecione</option>
@@ -101,13 +104,13 @@ export const IncluirIntimacaoComponent = (props) => {
                             <option value="Advogado">Advogado</option>
                         </select>
                     </div>
-                    <div class="campo">
-                        <label for="crime">Tipo de Crime:</label>
+                    <div className="campo">
+                        <label htmlFor="crime">Tipo de Crime:</label>
                         <input type="text" required id="crime" name="crime" size="27"
                             value={inputs.crime || ""} onChange={handleChange} />
                     </div>
-                    <div class="campo">
-                        <label for="tipoProcedimento">Tipo de Procedimento:</label>
+                    <div className="campo">
+                        <label htmlFor="tipoProcedimento">Tipo de Procedimento:</label>
                         <select required id="tipoProcedimento" name="tipoProcedimento" value={tipoProcedimento} 
                             onChange={handleChangeSelectTipoProcedimento}>
                             <option value="">Selecione</option>
@@ -119,43 +122,43 @@ export const IncluirIntimacaoComponent = (props) => {
                     </div>
                 </fieldset>
                 
-                <fieldset class="grupo" style={{display: 'flex', justifyContent: 'center'}}>
-                    <div class="campo">
-                        <label for="codSISP">Unidade:</label>
+                <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="campo">
+                        <label htmlFor="codSISP">Unidade:</label>
                         <input type="text" required id="codSISP" name="codSISP" size="20"
                             value={inputs.codSISP || ""} onChange={handleChange} />
                     </div>
-                    <div class="campo">
-                        <label for="anoProcedimento">Ano do Procedimento:</label>
+                    <div className="campo">
+                        <label htmlFor="anoProcedimento">Ano do Procedimento:</label>
                         <input type="text" required id="anoProcedimento" name="anoProcedimento" size="20" 
                             value={inputs.anoProcedimento || ""} onChange={handleChange} />
                     </div>
-                    <div class="campo">
-                        <label for="numProcedimento">Número do Procedimento:</label>
+                    <div className="campo">
+                        <label htmlFor="numProcedimento">Número do Procedimento:</label>
                         <input type="text" required id="numProcedimento" name="numProcedimento" size="20"
                             value={inputs.numProcedimento || ""} onChange={handleChange} />
                     </div>
                 </fieldset>
 
-                <fieldset class="grupo" style={{display: 'flex', justifyContent: 'center'}}>
-                    <div class="campo">
-                        <label for="dataAudiencia">Data da Audiência:</label>
+                <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="campo">
+                        <label htmlFor="dataAudiencia">Data da Audiência:</label>
                         <input type="date" required id="dataAudiencia" name="dataAudiencia" 
                             value={inputs.dataAudiencia || ""} onChange={handleChange} />
                     </div>
-                    <div class="campo">
-                        <label for="horaAudiencia">Hora da Audiência:</label>
+                    <div className="campo">
+                        <label htmlFor="horaAudiencia">Hora da Audiência:</label>
                         <input type="time" required id="horaAudiencia" name="horaAudiencia"
                             value={inputs.horaAudiencia || ""} onChange={handleChange} />
                     </div>
                 </fieldset>
 
-                <fieldset class="grupo" style={{display: 'flex', justifyContent: 'center'}}>
-                    <div class="campo">
-                        <button type="submit" class="botao submit">Salvar</button>
+                <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="campo">
+                        <button type="submit" className="botao submit">Salvar</button>
                     </div>
-                    <div class="campo">
-                        <button class="botao-secundario" onClick={limpar}>Limpar</button>
+                    <div className="campo">
+                        <button className="botao-secundario" onClick={limpar}>Limpar</button>
                     </div>
                 </fieldset>
             </fieldset>
