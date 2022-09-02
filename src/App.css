@@ -1,5 +1,49 @@
 .App {
-  
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: black;
+  min-height: 118vh;
+}
+
+.App-header {
+  background-color: lightgrey;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: black;
+}
+ 
+.container {
+  width: 100%;
+  height: auto;
+  padding: 1%;
+  margin-top: 20px;
+}
+
+.img-wrap {
+  float: left;
+  width: 5%;
+  margin-right: 2%;
+  padding-left: 25%;
+}
+
+.title-wrap {
+  float: left;
+  width: 60%;
+}
+
+.login-buttoz-wrap {
+  width: 10%;
 }
 
 .App-logo {
@@ -11,17 +55,6 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: lightgrey;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  color: black;
 }
 
 .App-link {
@@ -144,4 +177,13 @@ fieldset.grupo .campo {
   background: grey;
   box-shadow: inset 2px 2px 2px rgba(0,0,0,0.2);
   text-shadow: none;
+}
+
+.center {
+  margin:0 auto;
+}
+
+.right {
+  margin-left: auto; 
+  margin-right: 0;
 }

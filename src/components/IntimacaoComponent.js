@@ -4,6 +4,7 @@ import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
 import BasicModal from './BasicModal';
 import { GoogleAPI } from './GoogleAPI';
+import ApiCalendar from 'react-google-calendar-api';
 
 export const IntimacaoComponent = () => {
 
@@ -16,7 +17,6 @@ export const IntimacaoComponent = () => {
     const [intimacaoSelecionada, setIntimacaoSelecionada] = useState({});
 
     const handleOpen = () => setOpen(true);
-    
     const handleClose = () => setOpen(false);
 
     const handleAlterar = (rowData) => {
@@ -73,7 +73,8 @@ export const IntimacaoComponent = () => {
                     'dataAudiencia': intimacao[i].dataAudiencia,
                     'horaAudiencia': intimacao[i].horaAudiencia,
                     'dataHoraTabela': dataHoraTabela,
-                    'procedimentoTabela': procedimentoTabela
+                    'procedimentoTabela': procedimentoTabela,
+                    'idCalendarEvent': intimacao[i].idCalendarEvent
                 };
                 listaIntimacoes.push(intimacaoJSON);
             }
@@ -81,11 +82,39 @@ export const IntimacaoComponent = () => {
         });
     }
 
-    const excluirIntimacoes = (id) => {
+    const config = {
+        "clientId": process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        "apiKey": process.env.REACT_APP_GOOGLE_API_KEY,
+        "scope": "https://www.googleapis.com/auth/calendar",
+        "discoveryDocs": [
+          "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+        ]
+    };
+    
+    const apiCalendar = new ApiCalendar(config);
+
+    async function excluirIntimacoes(id, idCalendarEvent) {
+        const retornoDelete = await deletarEvento(idCalendarEvent);
+        if (retornoDelete === 1) { //Retorno com erro no deletar evento no GoogleCalendar
+            //return;
+        }
+
         GoogleAPI.excluir(id).then(() => {
             alert('Intimação excluída com sucesso!');
             buscarIntimacoes();
-        })
+        });
+    }
+
+    async function deletarEvento(idCalendarEvent) {
+        return apiCalendar.deleteEvent(idCalendarEvent, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com')
+            .then(res => {
+                alert('Exclusão no Google Calendar efetuada com sucesso!');
+                return 0;
+            })
+            .catch(err => {
+                alert('Erro ao tentar excluir agenda da intimação no Google Calendar!')
+                return 1
+            })
     }
 
     const enviarPrimeiroContato = (intimacao) => {
@@ -217,7 +246,7 @@ export const IntimacaoComponent = () => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir esta intimação?') ? excluirIntimacoes(rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir esta intimação?') ? excluirIntimacoes(rowData.id, rowData.idCalendarEvent) : undefined
         },
         {
             icon: "add_box",
@@ -241,7 +270,7 @@ export const IntimacaoComponent = () => {
             color: "#000000",
         }
     };
-
+    
     return (
         <div>
             <ThemeProvider theme={defaultMaterialTheme}>
