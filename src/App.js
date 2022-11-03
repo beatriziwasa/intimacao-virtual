@@ -1,9 +1,10 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import './App.css';
 import { IntimacaoComponent } from './components/IntimacaoComponent';
+import Header from './components/Header';
 import logoPCSC from './logo-policial-civil.png';
 import LoginDialog from './components/LoginDialog';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -16,27 +17,21 @@ function App() {
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <div className='container'>
-          <div className='img-wrap'>
-            <img alt="Logo da PCSC" src={logoPCSC} width="75" height="95" />
-          </div>
-          <div className='title-wrap'>
-            <br/>
-            <div>
-            <h2>INTIMAÇÃO VIRTUAL</h2>
-            <h2>11ª Delegacia de Polícia da Capital - DPTUR</h2>
-            </div>
-          </div>
-          <div className='login-button-wrap'>
-            <button onClick={handleOpen}><PersonOutlineIcon sx={{ fontSize: 40 }} /></button>
-          </div>
-        </div>
-      </header>
+      <Header handleOpen={handleOpen} loggedIn={loggedIn}/>
 
       {loggedIn ? 
-        <IntimacaoComponent />
-      : undefined }
+        <div>
+          <Box sx={{ overflow: "auto" }}>
+            <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <IntimacaoComponent />
+            </Box>
+          </Box>
+        </div>
+      :
+        <div className='center'>
+          <img alt="Logo da PCSC" src={logoPCSC} width="115" height="145" />
+        </div> 
+      }
 
       <LoginDialog
         open={open}

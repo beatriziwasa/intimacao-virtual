@@ -206,7 +206,7 @@ export const IntimacaoComponent = () => {
 
     const columns = [
         { title: 'Nome', field: 'nome', sorting: false, cellStyle: {
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap'//, position: "sticky", left: 0, background: "#e4dbb1",
            }},
         { title: 'Envolvimento', field: 'classe', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
@@ -258,6 +258,7 @@ export const IntimacaoComponent = () => {
 
     const options = {
         actionsColumnIndex: -1,
+        paging: false,
         tableLayout: "auto",
         headerStyle: {
             backgroundColor: "#dbca9e",
