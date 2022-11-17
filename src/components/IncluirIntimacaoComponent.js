@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleAPI } from './GoogleAPI';
 import _ from 'lodash';
 import ApiCalendar from 'react-google-calendar-api';
+import { gapi } from 'gapi-script';
 
 export const IncluirIntimacaoComponent = (props) => {
     
@@ -66,7 +67,8 @@ export const IncluirIntimacaoComponent = (props) => {
             'numProcedimento': inputs.numProcedimento,
             'dataAudiencia': inputs.dataAudiencia,
             'horaAudiencia': inputs.horaAudiencia,
-            'idCalendarEvent': inputs.idCalendarEvent
+            'idCalendarEvent': inputs.idCalendarEvent,
+            'googleMeetLink': inputs.googleMeetLink
         };
         
         let titulo = intimacao.tipoProcedimento + " " 
@@ -84,6 +86,14 @@ export const IncluirIntimacaoComponent = (props) => {
             },
             end: {
                 dateTime: dataHoraFim
+            },
+            conferenceData: {
+                createRequest: {
+                    requestId: "7qxalsvy0e",//getRandomString(),
+                    conferenceSolutionKey: {
+                        type: "hangoutsMeet"
+                    },
+                }
             }
         }
 
@@ -112,7 +122,29 @@ export const IncluirIntimacaoComponent = (props) => {
                                     alert('Já existe evento no calendário para esse horário!');
                                     return;
                                 } else {
-                                    apiCalendar.createEvent(event, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com')
+                                    gapi.client.calendar.events.insert({
+                                        calendarId: 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com',
+                                        //eventId: "7cbh8rpc10lrc0ckih9tafss99",
+                                        resource: event,
+                                        conferenceDataVersion: 1
+                                    }).execute(function(event) {
+                                        alert('Inclusão no Google Calendar efetuada com sucesso!');
+                                        intimacao['idCalendarEvent'] = event.id;
+                                        intimacao['googleMeetLink'] = event.hangoutLink;
+                                        GoogleAPI.incluir(intimacao).then(() => {
+                                            alert('Intimação incluída com sucesso!');
+                                            props.buscarIntimacoes();
+                                            props.handleClose();
+                                        })
+                                        .catch(err => {
+                                            alert('Erro de inclusão no sistema de Intimação Virtual!');
+                                            return;
+                                        });
+                                    }).catch(err => {
+                                        alert('Erro de inclusão no Google Calendar!');
+                                        return;
+                                    });
+                                    /*apiCalendar.createEvent(event, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com', { conferenceDataVersion: 1 })
                                         .then(res => {
                                             alert('Inclusão no Google Calendar efetuada com sucesso!');
                                             intimacao['idCalendarEvent'] = res.result.id;
@@ -129,10 +161,11 @@ export const IncluirIntimacaoComponent = (props) => {
                                         .catch(err => {
                                             alert('Erro de inclusão no Google Calendar!');
                                             return;
-                                        })
+                                        })*/
                                 }
                             }).catch(err => {
-                                alert('Erro de listagem de eventos do Google Calendar! (calendário de oitivas)');
+                                console.log('Erro de listagem de eventos do Google Calendar! (calendário de oitivas) ' + err);
+                                //alert('Erro de listagem de eventos do Google Calendar! (calendário de oitivas)');
                                 return;
                             });
                         }

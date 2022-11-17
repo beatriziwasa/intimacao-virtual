@@ -74,7 +74,8 @@ export const IntimacaoComponent = () => {
                     'horaAudiencia': intimacao[i].horaAudiencia,
                     'dataHoraTabela': dataHoraTabela,
                     'procedimentoTabela': procedimentoTabela,
-                    'idCalendarEvent': intimacao[i].idCalendarEvent
+                    'idCalendarEvent': intimacao[i].idCalendarEvent,
+                    'googleMeetLink': intimacao[i].googleMeetLink
                 };
                 listaIntimacoes.push(intimacaoJSON);
             }
@@ -152,24 +153,36 @@ export const IntimacaoComponent = () => {
     }
 
     const enviarLink = (intimacao) => {
-        let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%PROCEDIMENTO%-%SISP%-%N_PROCED%-%ANO_PROCED%
+        //let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%PROCEDIMENTO%-%SISP%-%N_PROCED%-%ANO_PROCED%
+        let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK%
 
         O link ficará ativo momentos antes da data e hora agendadas.`;
         
-        mensagemLink = mensagemLink.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
+        mensagemLink = mensagemLink.replaceAll("%GOOGLE_MEET_LINK%", intimacao.googleMeetLink);
+        /*mensagemLink = mensagemLink.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
         mensagemLink = mensagemLink.replaceAll("%SISP%", intimacao.codSISP);
         mensagemLink = mensagemLink.replaceAll("%N_PROCED%", intimacao.numProcedimento);
-        mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
+        mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
 
         whatsappAPI(intimacao.telefone, mensagemLink);
     }
 
     const enviarRelembrar = (intimacao) => {
-        let mensagemRelembrar = `Prezado(a) Sr(a). %NOME%, 
+        /*let mensagemRelembrar = `Prezado(a) Sr(a). %NOME%, 
 
         Relembramos Vossa Senhoria da audiência marcada para a data de *%DATA% às %HORA%*.
         
         O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%SISP%-%N_PROCED%-%ANO_PROCED%
+        
+        Atenciosamente,
+        DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
+        POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;*/
+
+        let mensagemRelembrar = `Prezado(a) Sr(a). %NOME%, 
+
+        Relembramos Vossa Senhoria da audiência marcada para a data de *%DATA% às %HORA%*.
+        
+        O link para acesso à videoconferência é %GOOGLE_MEET_LINK%
         
         Atenciosamente,
         DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
@@ -178,9 +191,10 @@ export const IntimacaoComponent = () => {
         mensagemRelembrar = mensagemRelembrar.replaceAll("%NOME%", intimacao.nome);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
         mensagemRelembrar = mensagemRelembrar.replaceAll("%HORA%", intimacao.horaAudiencia);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%SISP%", intimacao.codSISP);
+        mensagemRelembrar = mensagemRelembrar.replaceAll("%GOOGLE_MEET_LINK%", intimacao.googleMeetLink);
+        /*mensagemRelembrar = mensagemRelembrar.replaceAll("%SISP%", intimacao.codSISP);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%N_PROCED%", intimacao.numProcedimento);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
+        mensagemRelembrar = mensagemRelembrar.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
 
         whatsappAPI(intimacao.telefone, mensagemRelembrar);
     }
