@@ -250,13 +250,9 @@ export const IncluirIntimacaoComponent = (props) => {
                             value={inputs.nome || ""} onChange={handleChange} />
                     </div>
                     <div className="campo">
-                        <label htmlFor="telefone">Telefone:</label>
-                        <input type="tel" required id="telefone" name="telefone" size="16"
-                            pattern="[0-9]{2} [0-9]{2} [0-9]{5}-[0-9]{4}"
-                            placeholder="55 XX XXXXX-XXXX"
-                            maxLength="16"
+                        <label htmlFor="telefone">Fone: <small>(apenas números)</small></label>
+                        <input type="number" className="no-arrow" required id="telefone" name="telefone" size="16"
                             value={inputs.telefone || ""} onChange={handleChange} />
-                        <small>Exemplo: 55 48 99999-9999</small>
                     </div>
                 </fieldset>
 

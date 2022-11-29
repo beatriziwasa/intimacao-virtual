@@ -19,7 +19,8 @@ function Login(props) {
         if (res.profileObj.email === 'beatriz.iwasa@gmail.com'
             || res.profileObj.email === 'dpaeroportofln@gmail.com'
             || res.profileObj.email === 'scandolara.pcsc@gmail.com'
-            || res.profileObj.email === 'dpaeroporto@pc.sc.gov.br') {
+            || res.profileObj.email === 'dpaeroporto@pc.sc.gov.br'
+            || res.profileObj.email === 'beatriz-iwasa@pc.sc.gov.br') {
             props.handleUsuarioLogado(res.profileObj);
             props.handleLogin();
         } else {
