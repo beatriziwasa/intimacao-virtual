@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/intimacao-virtual/static/css/main.f95ba91a.chunk.css",
-    "main.js": "/intimacao-virtual/static/js/main.9b9c9d03.chunk.js",
-    "main.js.map": "/intimacao-virtual/static/js/main.9b9c9d03.chunk.js.map",
+    "main.css": "/intimacao-virtual/static/css/main.6b8fde17.chunk.css",
+    "main.js": "/intimacao-virtual/static/js/main.d21c757a.chunk.js",
+    "main.js.map": "/intimacao-virtual/static/js/main.d21c757a.chunk.js.map",
     "runtime-main.js": "/intimacao-virtual/static/js/runtime-main.9b1116a8.js",
     "runtime-main.js.map": "/intimacao-virtual/static/js/runtime-main.9b1116a8.js.map",
-    "static/js/2.5a02194d.chunk.js": "/intimacao-virtual/static/js/2.5a02194d.chunk.js",
-    "static/js/2.5a02194d.chunk.js.map": "/intimacao-virtual/static/js/2.5a02194d.chunk.js.map",
+    "static/js/2.f0d47ece.chunk.js": "/intimacao-virtual/static/js/2.f0d47ece.chunk.js",
+    "static/js/2.f0d47ece.chunk.js.map": "/intimacao-virtual/static/js/2.f0d47ece.chunk.js.map",
     "static/js/3.3727d8f7.chunk.js": "/intimacao-virtual/static/js/3.3727d8f7.chunk.js",
     "static/js/3.3727d8f7.chunk.js.map": "/intimacao-virtual/static/js/3.3727d8f7.chunk.js.map",
     "static/js/4.3b1778f7.chunk.js": "/intimacao-virtual/static/js/4.3b1778f7.chunk.js",
@@ -16,8 +16,8 @@
     "static/js/6.a4b6d7ab.chunk.js": "/intimacao-virtual/static/js/6.a4b6d7ab.chunk.js",
     "static/js/6.a4b6d7ab.chunk.js.map": "/intimacao-virtual/static/js/6.a4b6d7ab.chunk.js.map",
     "index.html": "/intimacao-virtual/index.html",
-    "static/css/main.f95ba91a.chunk.css.map": "/intimacao-virtual/static/css/main.f95ba91a.chunk.css.map",
-    "static/js/2.5a02194d.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/2.5a02194d.chunk.js.LICENSE.txt",
+    "static/css/main.6b8fde17.chunk.css.map": "/intimacao-virtual/static/css/main.6b8fde17.chunk.css.map",
+    "static/js/2.f0d47ece.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/2.f0d47ece.chunk.js.LICENSE.txt",
     "static/js/3.3727d8f7.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/3.3727d8f7.chunk.js.LICENSE.txt",
     "static/js/4.3b1778f7.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/4.3b1778f7.chunk.js.LICENSE.txt",
     "static/js/5.bb5b8b49.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/5.bb5b8b49.chunk.js.LICENSE.txt",
@@ -25,8 +25,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.9b1116a8.js",
-    "static/js/2.5a02194d.chunk.js",
-    "static/css/main.f95ba91a.chunk.css",
-    "static/js/main.9b9c9d03.chunk.js"
+    "static/js/2.f0d47ece.chunk.js",
+    "static/css/main.6b8fde17.chunk.css",
+    "static/js/main.d21c757a.chunk.js"
   ]
 }
