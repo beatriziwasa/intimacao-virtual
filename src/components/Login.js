@@ -9,7 +9,7 @@ function Login(props) {
         function start() {
             gapi.client.init({
                 clientId: clientId,
-                scope: 'email',
+                scope: "https://www.googleapis.com/auth/userinfo.email  https://www.googleapis.com/auth/calendar",
             });
         }
         gapi.load('client:auth2', start);
