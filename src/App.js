@@ -20,7 +20,7 @@ function App() {
       <Header handleOpen={handleOpen} loggedIn={loggedIn}/>
 
       {loggedIn ? 
-        <div>
+        <div className='content'>
           <Box sx={{ overflow: "auto" }}>
             <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
               <IntimacaoComponent />

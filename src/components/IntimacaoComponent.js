@@ -149,7 +149,7 @@ export const IntimacaoComponent = () => {
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
         mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%HORA%", intimacao.horaAudiencia);
 
-        whatsappAPI(intimacao.telefone, mensagemPrimeiroContato);
+        whatsappAPI([intimacao.telefone, "5548991843628"], mensagemPrimeiroContato);
     }
 
     const enviarLink = (intimacao) => {
@@ -164,7 +164,7 @@ export const IntimacaoComponent = () => {
         mensagemLink = mensagemLink.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
 
-        whatsappAPI(intimacao.telefone, mensagemLink);
+        whatsappAPI([intimacao.telefone], mensagemLink);
     }
 
     const enviarRelembrar = (intimacao) => {
@@ -196,7 +196,7 @@ export const IntimacaoComponent = () => {
         mensagemRelembrar = mensagemRelembrar.replaceAll("%N_PROCED%", intimacao.numProcedimento);
         mensagemRelembrar = mensagemRelembrar.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
 
-        whatsappAPI(intimacao.telefone, mensagemRelembrar);
+        whatsappAPI([intimacao.telefone], mensagemRelembrar);
     }
 
     const formatDate = (data) => {
@@ -205,15 +205,17 @@ export const IntimacaoComponent = () => {
         return dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
     }
 
-    const whatsappAPI = (telefone, msg) => {
-        let URL = 'https://wa.me';
-        let number = telefone;
-        number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
-        let url = "".concat(URL, "/").concat(number);
-        if (msg) {
-            url += "?text=".concat(encodeURI(msg));
-        }
-        window.open(url);
+    const whatsappAPI = (telefones, msg) => {
+        telefones.forEach(telefone => {
+            let URL = 'https://wa.me';
+            let number = telefone;
+            number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
+            let url = "".concat(URL, "/").concat(number);
+            if (msg) {
+                url += "?text=".concat(encodeURI(msg));
+            }
+            window.open(url);
+        });
     }
 
     const defaultMaterialTheme = createTheme();

@@ -8,6 +8,12 @@
   color: black;
   min-height: 100vh;
 }
+
+.content {
+  width: 100%;
+  height: auto;
+  margin-top: 70px;
+}
  
 .container {
   width: 100%;
