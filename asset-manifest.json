@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/intimacao-virtual/static/css/main.bdf5e4ba.chunk.css",
-    "main.js": "/intimacao-virtual/static/js/main.8c25dcd6.chunk.js",
-    "main.js.map": "/intimacao-virtual/static/js/main.8c25dcd6.chunk.js.map",
+    "main.js": "/intimacao-virtual/static/js/main.b55b343e.chunk.js",
+    "main.js.map": "/intimacao-virtual/static/js/main.b55b343e.chunk.js.map",
     "runtime-main.js": "/intimacao-virtual/static/js/runtime-main.9b1116a8.js",
     "runtime-main.js.map": "/intimacao-virtual/static/js/runtime-main.9b1116a8.js.map",
     "static/js/2.92848555.chunk.js": "/intimacao-virtual/static/js/2.92848555.chunk.js",
@@ -27,6 +27,6 @@
     "static/js/runtime-main.9b1116a8.js",
     "static/js/2.92848555.chunk.js",
     "static/css/main.bdf5e4ba.chunk.css",
-    "static/js/main.8c25dcd6.chunk.js"
+    "static/js/main.b55b343e.chunk.js"
   ]
 }
