@@ -154,9 +154,17 @@ export const IntimacaoComponent = () => {
 
     const enviarLink = (intimacao) => {
         //let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%PROCEDIMENTO%-%SISP%-%N_PROCED%-%ANO_PROCED%
-        let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK%
+        //let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK% 
+        //O link ficará ativo momentos antes da data e hora agendadas.`;
 
-        O link ficará ativo momentos antes da data e hora agendadas.`;
+        let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK%.
+        
+        O link ficará ativo momentos antes da data e hora agendadas.
+        
+        Lembre-se que a audiência é um ato oficial, portanto, esteja em um ambiente silencioso e com conexão de internet estável.
+        
+        Certifique-se, também, que sua câmera e microfone estejam funcionando corretamente. De preferência, use fones de ouvido.`
+
         
         mensagemLink = mensagemLink.replaceAll("%GOOGLE_MEET_LINK%", intimacao.googleMeetLink);
         /*mensagemLink = mensagemLink.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);

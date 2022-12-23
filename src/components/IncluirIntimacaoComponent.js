@@ -72,8 +72,9 @@ export const IncluirIntimacaoComponent = (props) => {
         };
         
         let titulo = intimacao.tipoProcedimento + " " 
-                    + intimacao.numProcedimento + "/" 
-                    + intimacao.anoProcedimento + " - "
+                    + intimacao.codSISP + "-"
+                    + intimacao.anoProcedimento + "-"
+                    + intimacao.numProcedimento + " - "
                     + intimacao.classe.substring(0,1) + " - "
                     + intimacao.nome;
         const dataHoraInicio = new Date(intimacao.dataAudiencia + " " + intimacao.horaAudiencia);
