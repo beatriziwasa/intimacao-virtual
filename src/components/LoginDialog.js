@@ -11,7 +11,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
 function LoginDialog(props) {
-    const { open, loggedIn, handleClose, handleLogin, handleLogout } = props;
+    const { open, loggedIn, handleClose, handleLogin, handleLogout, handleOpenAlert, handleAlertMessage, handleAlertSeverity } = props;
 
     const [usuarioLogado, setUsuarioLogado] = useState({});
     const handleUsuarioLogado = (usuarioLogado) => setUsuarioLogado(usuarioLogado);
@@ -43,9 +43,20 @@ function LoginDialog(props) {
                 </ListItem>
                 <ListItem autoFocus button onClick={() => handleClose()}>
                     {loggedIn ? 
-                        <Logout handleLogout={handleLogout} />
+                        <Logout
+                            handleLogout={handleLogout}
+                            handleOpenAlert={handleOpenAlert}
+                            handleAlertMessage={handleAlertMessage} 
+                            handleAlertSeverity={handleAlertSeverity}
+                        />
                         :
-                        <Login handleLogin={handleLogin} handleUsuarioLogado={handleUsuarioLogado} />
+                        <Login
+                            handleLogin={handleLogin}
+                            handleUsuarioLogado={handleUsuarioLogado}
+                            handleOpenAlert={handleOpenAlert}
+                            handleAlertMessage={handleAlertMessage} 
+                            handleAlertSeverity={handleAlertSeverity}
+                        />
                     }
                 </ListItem>
             </List>

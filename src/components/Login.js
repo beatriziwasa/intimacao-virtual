@@ -21,15 +21,22 @@ function Login(props) {
             || res.profileObj.email === 'scandolara.pcsc@gmail.com'
             || res.profileObj.email === 'dpaeroporto@pc.sc.gov.br'
             || res.profileObj.email === 'beatriz-iwasa@pc.sc.gov.br') {
+            props.handleOpenAlert();
+            props.handleAlertSeverity('success');
+            props.handleAlertMessage('Login feito com sucesso!');
             props.handleUsuarioLogado(res.profileObj);
             props.handleLogin();
         } else {
-            alert('Usuário sem acesso! Entre em contato com o administrador do sistema de Intimação Virtual.');
+            props.handleOpenAlert();
+            props.handleAlertSeverity('error');
+            props.handleAlertMessage('Usuário sem acesso! Entre em contato com o administrador do sistema de Intimação Virtual.');
         }
     };
 
     const onFailure = (res) => {
-        alert('Falha ao se autenticar!');
+        props.handleOpenAlert();
+        props.handleAlertSeverity('error');
+        props.handleAlertMessage('Falha ao se autenticar!');
     }
     
     return (

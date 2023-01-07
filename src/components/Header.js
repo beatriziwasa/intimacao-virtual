@@ -40,7 +40,7 @@ export default function Header(props) {
 
   const tituloIntimacaoVirtual = (
     <Typography variant="h6" component="h1" className={titulo}>
-        INTIMAÇÃO VIRTUAL - 11ª Delegacia de Polícia da Capital - DPTUR
+        DELEGACIA VIRTUAL - 11ª Delegacia de Polícia da Capital - DPTUR
     </Typography>
   );
 

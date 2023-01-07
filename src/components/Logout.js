@@ -16,7 +16,9 @@ function Logout(props) {
     }, []);
 
     const onSuccess = () => {
-        alert('Logout feito com sucesso!');
+        props.handleOpenAlert();
+        props.handleAlertSeverity('success');
+        props.handleAlertMessage('Logout feito com sucesso!');
         props.handleLogout();
     };
     

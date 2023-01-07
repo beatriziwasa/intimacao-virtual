@@ -9,7 +9,7 @@ import ApiCalendar from 'react-google-calendar-api';
 import logoPCSC from '../logo-policial-civil.png';
 import BasicBreadcrumbs from './BasicBreadcrumbs';
 
-export const IntimacaoComponent = (props) => {
+export const IpComponent = (props) => {
 
     useEffect(() => {
         buscarIntimacoes();
@@ -316,11 +316,11 @@ export const IntimacaoComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"Intimações"} />
+                    <BasicBreadcrumbs texto={"IP"} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title="INTIMAÇÕES"
+                            title="IP"
                             columns={columns}
                             data={intimacoes}
                             actions={actions}
