@@ -5,6 +5,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from "./components/Home";
 import { IntimacaoComponent } from "./components/IntimacaoComponent";
+import { Livro } from "./components/Livro";
 import { IpComponent } from "./components/IpComponent";
 import LoginDialog from './components/LoginDialog';
 import Snackbar from '@mui/material/Snackbar';
@@ -38,18 +39,22 @@ export default function App() {
   const [alertSeverity, setAlertSeverity] = React.useState('');
   const handleAlertSeverity = (severity) => setAlertSeverity(severity);
 
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const handleOpenDrawer = () => setOpenDrawer(true);
+
   return (
     <div className='App'>
-      <Header handleOpen={handleOpen} loggedIn={loggedIn} />
+      <Header handleOpen={handleOpen} loggedIn={loggedIn} handleOpenDrawer={handleOpenDrawer} />
       
       <Toolbar />
       
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element = { <Home loggedIn={loggedIn} /> } />
-          <Route path="/intimacao-virtual" element = { <Home loggedIn={loggedIn} /> } />
-          <Route path="/intimacao" element = { <IntimacaoComponent loggedIn={loggedIn} /> } />
-          <Route path="/ip" element = { <IpComponent loggedIn={loggedIn} /> } />
+          <Route path="/" exact element = { <Home loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/intimacao-virtual" element = { <Home loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/intimacao" element = { <IntimacaoComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/livro/:proc" element = { <Livro loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/ip/:ano" element = { <IpComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="*" element={<div>Erro 404 - Página não encontrada!</div>} />
         </Routes>
       </BrowserRouter>

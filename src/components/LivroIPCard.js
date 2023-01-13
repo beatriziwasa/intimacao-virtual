@@ -10,7 +10,7 @@ import ip from '../ip.jpeg';
 export default function LivroIPCard() {
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea component={RouterLink} to="/">
+      <CardActionArea component={RouterLink} to="/livro/ip">
         <CardMedia
           component="img"
           height="140"

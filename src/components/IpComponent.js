@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { useParams } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
 import BasicModal from './BasicModal';
 import BasicModalCertidao from './BasicModalCertidao';
 import { GoogleAPI } from './GoogleAPI';
 import ApiCalendar from 'react-google-calendar-api';
-import logoPCSC from '../logo-policial-civil.png';
 import BasicBreadcrumbs from './BasicBreadcrumbs';
+import SidebarMenu from './SidebarMenu';
 
 export const IpComponent = (props) => {
 
@@ -15,6 +16,8 @@ export const IpComponent = (props) => {
         buscarIntimacoes();
     }, []);
 
+    const { ano } = useParams();
+    
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
     const [intimacoes, setIntimacoes] = useState([]);
@@ -316,11 +319,11 @@ export const IpComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"IP"} />
+                    <BasicBreadcrumbs texto={"IP " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title="IP"
+                            title={"INQUÉRITOS POLICIAIS " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
                             data={intimacoes}
                             actions={actions}
@@ -336,10 +339,12 @@ export const IpComponent = (props) => {
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
                         intimacaoSelecionada={intimacaoSelecionada} />
+
+                    <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>
             :
-                <div className='center'>
-                    <img alt="Logo da PCSC" src={logoPCSC} width="115" height="145" />
+                <div>
+                    Faça o login para acessar o sistema
                 </div>
             }
         </div>

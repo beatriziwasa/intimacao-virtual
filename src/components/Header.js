@@ -1,6 +1,8 @@
 import { AppBar, Toolbar, Typography, makeStyles, Button } from "@material-ui/core";
 import React from "react";
 import logoPCSC from '../logo-policial-civil.png';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -27,21 +29,35 @@ export default function Header(props) {
   const displayDesktop = () => {
     return (
         <Toolbar className={toolbar}>
-            {logoIntimacaoVirtual}
-            {tituloIntimacaoVirtual}
-            {getMenuButtons()}
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            disabled={!props.loggedIn}
+            onClick={props.handleOpenDrawer}
+          >
+            <MenuIcon color="action" />
+          </IconButton>
+
+          {tituloIntimacaoVirtual}
+          {getMenuButtons()}
         </Toolbar>
     );
   };
 
-  const logoIntimacaoVirtual = (
-    <img alt="Logo da PCSC" src={logoPCSC} width="35" height="45" className={logo} />
-  );
-
   const tituloIntimacaoVirtual = (
-    <Typography variant="h6" component="h1" className={titulo}>
-        DELEGACIA VIRTUAL - 11ª Delegacia de Polícia da Capital - DPTUR
-    </Typography>
+    <div>
+      <div className='displayInlineBlock'>
+        <img alt="Logo da PCSC" src={logoPCSC} width="35" height="45" className={logo} />
+      </div>
+      <div className='displayInlineBlock'>
+        <Typography variant="h6" component="h1" className={titulo}>
+            DELEGACIA VIRTUAL - 11ª Delegacia de Polícia da Capital - DPTUR
+        </Typography>
+      </div>
+    </div>
   );
 
   const getMenuButtons = () => {

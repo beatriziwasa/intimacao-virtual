@@ -165,6 +165,10 @@ fieldset.grupo .campo {
   margin-right: 0;
 }
 
+.displayInlineBlock {
+  display: inline-block;
+}
+
 .no-arrow {
   -moz-appearance: textfield;
 }

@@ -6,8 +6,8 @@ import BasicModal from './BasicModal';
 import BasicModalCertidao from './BasicModalCertidao';
 import { GoogleAPI } from './GoogleAPI';
 import ApiCalendar from 'react-google-calendar-api';
-import logoPCSC from '../logo-policial-civil.png';
 import BasicBreadcrumbs from './BasicBreadcrumbs';
+import SidebarMenu from './SidebarMenu';
 
 export const IntimacaoComponent = (props) => {
 
@@ -336,10 +336,12 @@ export const IntimacaoComponent = (props) => {
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
                         intimacaoSelecionada={intimacaoSelecionada} />
+
+                    <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>
             :
-                <div className='center'>
-                    <img alt="Logo da PCSC" src={logoPCSC} width="115" height="145" />
+                <div>
+                    Faça o login para acessar o sistema
                 </div>
             }
         </div>
