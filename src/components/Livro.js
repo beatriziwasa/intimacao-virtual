@@ -71,7 +71,7 @@ export const Livro = (props) => {
                             value={tipoProcedimento}
                             variant='outlined'
                             onChange={handleChangeSelectTipoProcedimento}
-                            sx={{ color: 'white', fontWeight: 'bold'}}
+                            sx={{ fontSize: '20px', color: 'white', fontWeight: 'bold'}}
                         >
                             {tiposProcedimentos.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -85,7 +85,7 @@ export const Livro = (props) => {
                             value={ano}
                             variant='outlined'
                             onChange={handleChangeSelectAno}
-                            sx={{ color: 'white', fontWeight: 'bold'}}
+                            sx={{ fontSize: '20px', color: 'white', fontWeight: 'bold'}}
                         >
                             {anos.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -95,8 +95,8 @@ export const Livro = (props) => {
                         </Select>
                     </Box>
 
-                    <Box sx={{ marginTop: '80px' }}>
-                        <Link to={link}><img alt="Logo da PCSC" src={logoPCSC} width="60" height="70" /></Link>
+                    <Box sx={{ marginTop: '50px' }}>
+                        <Link to={link}><img alt="Logo da PCSC" src={logoPCSC} width="100" height="120" /></Link>
                     </Box>
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />

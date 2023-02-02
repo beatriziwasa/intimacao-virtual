@@ -19,10 +19,7 @@ export default function LivroIPCard() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Livro IP
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Livro IP é ...
+            Cartório Virtual
           </Typography>
         </CardContent>
       </CardActionArea>

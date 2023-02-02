@@ -21,9 +21,6 @@ export default function IntimacaoVirtualCard() {
           <Typography gutterBottom variant="h5" component="div">
             Intimação Virtual
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Intimação Virtual é ...
-          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

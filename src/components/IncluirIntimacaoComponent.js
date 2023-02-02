@@ -132,7 +132,7 @@ export const IncluirIntimacaoComponent = (props) => {
                                         alert('Inclusão no Google Calendar efetuada com sucesso!');
                                         intimacao['idCalendarEvent'] = event.id;
                                         intimacao['googleMeetLink'] = event.hangoutLink;
-                                        GoogleAPI.incluir(intimacao).then(() => {
+                                        GoogleAPI.incluir(intimacao, 'Intimacao').then(() => {
                                             alert('Intimação incluída com sucesso!');
                                             props.buscarIntimacoes();
                                             props.handleClose();
@@ -149,7 +149,7 @@ export const IncluirIntimacaoComponent = (props) => {
                                         .then(res => {
                                             alert('Inclusão no Google Calendar efetuada com sucesso!');
                                             intimacao['idCalendarEvent'] = res.result.id;
-                                            GoogleAPI.incluir(intimacao).then(() => {
+                                            GoogleAPI.incluir(intimacao, 'Intimacao').then(() => {
                                                 alert('Intimação incluída com sucesso!');
                                                 props.buscarIntimacoes();
                                                 props.handleClose();
@@ -209,7 +209,7 @@ export const IncluirIntimacaoComponent = (props) => {
                                     .then(res => {
                                         alert('Alteração no Google Calendar efetuada com sucesso!');
                                         intimacao['id'] = idIntimacao;
-                                        GoogleAPI.alterar(intimacao).then(() => {
+                                        GoogleAPI.alterar(intimacao, 'Intimacao').then(() => {
                                             alert('Intimação alterada com sucesso!');
                                             props.buscarIntimacoes();
                                             props.handleClose();

@@ -36,7 +36,7 @@ export const IntimacaoComponent = (props) => {
     }
     
     const buscarIntimacoes = () => {
-        GoogleAPI.consultar().then((intimacao) => {
+        GoogleAPI.consultar('Intimacao').then((intimacao) => {
             const listaIntimacoes = [];
             for (let i = 0; i < intimacao.length; i++) {
                 let dataHoraTabela = "";
@@ -106,7 +106,7 @@ export const IntimacaoComponent = (props) => {
             //return;
         }
 
-        GoogleAPI.excluir(id).then(() => {
+        GoogleAPI.excluir(id, 'Intimacao').then(() => {
             alert('Intimação excluída com sucesso!');
             buscarIntimacoes();
         });

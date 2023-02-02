@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 import { useParams } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModal from './BasicModal';
+import BasicModalIP from './BasicModalIP';
 import BasicModalCertidao from './BasicModalCertidao';
 import { GoogleAPI } from './GoogleAPI';
-import ApiCalendar from 'react-google-calendar-api';
 import BasicBreadcrumbs from './BasicBreadcrumbs';
 import SidebarMenu from './SidebarMenu';
 
 export const IpComponent = (props) => {
 
     useEffect(() => {
-        buscarIntimacoes();
+        buscarIPs();
     }, []);
 
     const { ano } = useParams();
     
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
-    const [intimacoes, setIntimacoes] = useState([]);
-    const [intimacaoSelecionada, setIntimacaoSelecionada] = useState({});
+    const [ips, setIPs] = useState([]);
+    const [ipSelecionado, setIPSelecionado] = useState({});
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -29,191 +27,50 @@ export const IpComponent = (props) => {
     const handleCloseCertidao = () => setOpenCertidao(false);
 
     const handleAlterar = (rowData) => {
-        setIntimacaoSelecionada(rowData);
+        setIPSelecionado(rowData);
         handleOpen();
     }
 
     const handleIncluir = () => {
-        setIntimacaoSelecionada({});
+        setIPSelecionado({});
         handleOpen();
     }
     
-    const buscarIntimacoes = () => {
-        GoogleAPI.consultar().then((intimacao) => {
-            const listaIntimacoes = [];
-            for (let i = 0; i < intimacao.length; i++) {
-                let dataHoraTabela = "";
-                let dataFormatada = "";
-                if (!_.isNil(intimacao[i].dataAudiencia)) {
-                    let dataTemp = intimacao[i].dataAudiencia;
-                    dataTemp = dataTemp.split("-");
-                    dataFormatada = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+    const buscarIPs = () => {
+        GoogleAPI.consultar('IP').then((ip) => {
+            const listaIps = [];
+            for (let i = 0; i < ip.length; i++) {
+                if (ip[i].ano === ano) {
+                    const ipJSON = {
+                        'id': ip[i].id,
+                        'escrivao': ip[i].escrivao,
+                        'numero': ip[i].numero,
+                        'ano': ip[i].ano,
+                        'dataAutuacao': ip[i].dataAutuacao,
+                        'dataAutuacaoTabela': formatDate(ip[i].dataAutuacao),
+                        'delito': ip[i].delito,
+                        'delegado': ip[i].delegado,
+                        'investigado': ip[i].investigado,
+                        'vitima': ip[i].vitima,
+                        'origemBOOficio': ip[i].origemBOOficio,
+                        'apreensao': ip[i].apreensao,
+                        'dataRemessa': ip[i].dataRemessa,
+                        'dataRemessaTabela': formatDate(ip[i].dataRemessa),
+                        'numAutoForum': ip[i].numAutoForum,
+                        'status': ip[i].status
+                    };
+                    listaIps.push(ipJSON);
                 }
-                if (!_.isNil(intimacao[i].dataAudiencia) && !_.isNil(intimacao[i].horaAudiencia)) {
-                    dataHoraTabela = dataFormatada.concat(" ").concat(intimacao[i].horaAudiencia);
-                } else if (!_.isNil(intimacao[i].dataAudiencia)) {
-                    dataHoraTabela = dataFormatada;
-                }
-        
-                let procedimentoTabela = "";
-                if (!_.isNil(intimacao[i].tipoProcedimento)) {
-                    procedimentoTabela = intimacao[i].tipoProcedimento;
-                }
-                if (!_.isNil(intimacao[i].codSISP)) {
-                    procedimentoTabela = procedimentoTabela.concat(" ").concat(intimacao[i].codSISP);
-                }
-                if (!_.isNil(intimacao[i].anoProcedimento)) {
-                    procedimentoTabela = procedimentoTabela.concat(".").concat(intimacao[i].anoProcedimento);
-                }
-                if (!_.isNil(intimacao[i].numProcedimento)) {
-                    procedimentoTabela = procedimentoTabela.concat(".").concat(intimacao[i].numProcedimento);
-                }
-
-                const intimacaoJSON = {
-                    'id': intimacao[i].id,
-                    'nome': intimacao[i].nome,
-                    'telefone': intimacao[i].telefone,
-                    'classe': intimacao[i].classe,
-                    'crime': intimacao[i].crime,
-                    'tipoProcedimento': intimacao[i].tipoProcedimento,
-                    'codSISP': intimacao[i].codSISP,
-                    'anoProcedimento': intimacao[i].anoProcedimento,
-                    'numProcedimento': intimacao[i].numProcedimento,
-                    'dataAudiencia': intimacao[i].dataAudiencia,
-                    'horaAudiencia': intimacao[i].horaAudiencia,
-                    'dataHoraTabela': dataHoraTabela,
-                    'procedimentoTabela': procedimentoTabela,
-                    'idCalendarEvent': intimacao[i].idCalendarEvent,
-                    'googleMeetLink': intimacao[i].googleMeetLink
-                };
-                listaIntimacoes.push(intimacaoJSON);
             }
-            setIntimacoes(listaIntimacoes);
+            setIPs(listaIps);
         });
     }
 
-    const config = {
-        "clientId": process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        "apiKey": process.env.REACT_APP_GOOGLE_API_KEY,
-        "scope": "https://www.googleapis.com/auth/calendar",
-        "discoveryDocs": [
-          "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
-        ]
-    };
-    
-    const apiCalendar = new ApiCalendar(config);
-
-    async function excluirIntimacoes(id, idCalendarEvent) {
-        const retornoDelete = await deletarEvento(idCalendarEvent);
-        if (retornoDelete === 1) { //Retorno com erro no deletar evento no GoogleCalendar
-            //return;
-        }
-
-        GoogleAPI.excluir(id).then(() => {
-            alert('Intimação excluída com sucesso!');
-            buscarIntimacoes();
+    async function excluirIntimacoes(id) {
+        GoogleAPI.excluir(id, 'IP').then(() => {
+            alert('IP excluído com sucesso!');
+            buscarIPs();
         });
-    }
-
-    async function deletarEvento(idCalendarEvent) {
-        return apiCalendar.deleteEvent(idCalendarEvent, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com')
-            .then(res => {
-                alert('Exclusão no Google Calendar efetuada com sucesso!');
-                return 0;
-            })
-            .catch(err => {
-                alert('Erro ao tentar excluir agenda da intimação no Google Calendar!')
-                return 1
-            })
-    }
-
-    const enviarPrimeiroContato = (intimacao) => {
-        let mensagemPrimeiroContato = `Prezado(a) Sr(a). %NOME%, 
-
-        A Delegacia de Proteção ao Turista (DPTUR) - Unidade Aeroporto, da Polícia Civil do Estado de Santa Catarina, entra em contato para fim de INTIMÁ-LO(A) a prestar depoimento na condição de %CLASSE% nos autos do %PROCEDIMENTO% n. %SISP%.%ANO_PROCED%.%N_PROCED%.
-        
-        O procedimento refere-se à apuração de suposto ato de %CRIME%.
-        
-        A data prevista para sua oitiva será em *%DATA% às %HORA%*.
-        
-        Tendo em vista a atual situação pandêmica, estamos priorizando as oitivas através de videoconferência. Nesse caso, o(a) Sr(a). deverá conectar-se utilizando um computador com webcam e microfone ou telefone celular.
-        
-        Caso queira fazer-se acompanhar de advogado(a), o mesmo link poderá ser utilizado por seu(sua) procurador(a).
-        
-        *Para envio do link para videoconferência, solicitamos que confirme o recebimento desta mensagem*.
-        
-        Para dúvidas, solicitação de cópias de documentos e demais informações, favor utilizar exclusivamente o e-mail dpaeroporto@pc.sc.gov.br , com o assunto %PROCEDIMENTO% n. %SISP%.%ANO_PROCED%.%N_PROCED%.
-        
-        Atenciosamente,
-        DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
-        POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
-        
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%NOME%", intimacao.nome);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CLASSE%", intimacao.classe.toLowerCase());
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%CRIME%", intimacao.crime.toLowerCase());
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%SISP%", intimacao.codSISP);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%N_PROCED%", intimacao.numProcedimento);
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
-        mensagemPrimeiroContato = mensagemPrimeiroContato.replaceAll("%HORA%", intimacao.horaAudiencia);
-
-        whatsappAPI([intimacao.telefone, "5548991843628"], mensagemPrimeiroContato);
-    }
-
-    const enviarLink = (intimacao) => {
-        //let mensagemLink = `O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%PROCEDIMENTO%-%SISP%-%N_PROCED%-%ANO_PROCED%
-        //let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK% 
-        //O link ficará ativo momentos antes da data e hora agendadas.`;
-
-        let mensagemLink = `O link para acesso à videoconferência é %GOOGLE_MEET_LINK%.
-        
-        O link ficará ativo momentos antes da data e hora agendadas.
-        
-        Lembre-se que a audiência é um ato oficial, portanto, esteja em um ambiente silencioso e com conexão de internet estável.
-        
-        Certifique-se, também, que sua câmera e microfone estejam funcionando corretamente. De preferência, use fones de ouvido.`
-
-        
-        mensagemLink = mensagemLink.replaceAll("%GOOGLE_MEET_LINK%", intimacao.googleMeetLink);
-        /*mensagemLink = mensagemLink.replaceAll("%PROCEDIMENTO%", intimacao.tipoProcedimento);
-        mensagemLink = mensagemLink.replaceAll("%SISP%", intimacao.codSISP);
-        mensagemLink = mensagemLink.replaceAll("%N_PROCED%", intimacao.numProcedimento);
-        mensagemLink = mensagemLink.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
-
-        whatsappAPI([intimacao.telefone], mensagemLink);
-    }
-
-    const enviarRelembrar = (intimacao) => {
-        /*let mensagemRelembrar = `Prezado(a) Sr(a). %NOME%, 
-
-        Relembramos Vossa Senhoria da audiência marcada para a data de *%DATA% às %HORA%*.
-        
-        O link para acesso à videoconferência é https://webconf.pc.sc.gov.br/dptur-%SISP%-%N_PROCED%-%ANO_PROCED%
-        
-        Atenciosamente,
-        DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
-        POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;*/
-
-        let mensagemRelembrar = `Prezado(a) Sr(a). %NOME%, 
-
-        Relembramos Vossa Senhoria da audiência marcada para a data de *%DATA% às %HORA%*.
-        
-        O link para acesso à videoconferência é %GOOGLE_MEET_LINK%
-        
-        Atenciosamente,
-        DELEGACIA DE PROTEÇÃO AO TURISTA (DPTUR)
-        POLÍCIA CIVIL DO ESTADO DE SANTA CATARINA`;
-        
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%NOME%", intimacao.nome);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%DATA%", formatDate(intimacao.dataAudiencia));
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%HORA%", intimacao.horaAudiencia);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%GOOGLE_MEET_LINK%", intimacao.googleMeetLink);
-        /*mensagemRelembrar = mensagemRelembrar.replaceAll("%SISP%", intimacao.codSISP);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%N_PROCED%", intimacao.numProcedimento);
-        mensagemRelembrar = mensagemRelembrar.replaceAll("%ANO_PROCED%", intimacao.anoProcedimento);*/
-
-        whatsappAPI([intimacao.telefone], mensagemRelembrar);
     }
 
     const formatDate = (data) => {
@@ -222,60 +79,47 @@ export const IpComponent = (props) => {
         return dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
     }
 
-    const whatsappAPI = (telefones, msg) => {
-        telefones.forEach(telefone => {
-            let URL = 'https://wa.me';
-            let number = telefone;
-            number = number.replace(/[^\w\s]/gi, '').replace(/ /g, '');
-            let url = "".concat(URL, "/").concat(number);
-            if (msg) {
-                url += "?text=".concat(encodeURI(msg));
-            }
-            window.open(url);
-        });
-    }
-
     const emitirCertidao = (rowData) => {
-        setIntimacaoSelecionada(rowData);
+        setIPSelecionado(rowData);
         handleOpenCertidao();
     }
 
     const defaultMaterialTheme = createTheme();
 
     const columns = [
-        { title: 'Nome', field: 'nome', sorting: false, cellStyle: {
+        { title: 'Número', field: 'numero', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'//, position: "sticky", left: 0, background: "#e4dbb1",
-           }},
-        { title: 'Envolvimento', field: 'classe', sorting: false, cellStyle: {
+        }},
+        { title: 'Ano', field: 'ano', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
-           }},
-        { title: 'Crime', field: 'crime', sorting: false, cellStyle: {
+        }},
+        { title: 'Autuação', field: 'dataAutuacaoTabela', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
-           }},
-        { title: 'Procedimento', field: 'procedimentoTabela', sorting: false, cellStyle: {
+        }},
+        { title: 'Delito', field: 'delito', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
-           }},
-        { title: 'Data Audiência', field: 'dataHoraTabela', sorting: false, cellStyle: {
+        }},
+        { title: 'Vítima', field: 'vitima', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
-           }}
+        }},
+        { title: 'Investigado', field: 'investigado', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'
+        }},
+        { title: 'Remessa', field: 'dataRemessaTabela', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'
+        }},
+        { title: 'Eproc', field: 'numAutoForum', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'
+        }},
+        { title: 'Status', field: 'status', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'
+        }},
+        { title: 'Apreensão', field: 'apreensao', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'
+        }}
     ];
 
     const actions = [
-        {
-            icon: 'outgoing_mail',
-            tooltip: 'Enviar primeiro contato',
-            onClick: (event, rowData) => enviarPrimeiroContato(rowData)
-        },
-        {
-            icon: 'link',
-            tooltip: 'Enviar link',
-            onClick: (event, rowData) => enviarLink(rowData)
-        },
-        {
-            icon: 'event_repeat',
-            tooltip: 'Relembrar oitiva',
-            onClick: (event, rowData) => enviarRelembrar(rowData)
-        },
         {
             icon: 'edit',
             tooltip: 'Alterar',
@@ -289,7 +133,7 @@ export const IpComponent = (props) => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir esta intimação?') ? excluirIntimacoes(rowData.id, rowData.idCalendarEvent) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este IP?') ? excluirIntimacoes(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -309,9 +153,11 @@ export const IpComponent = (props) => {
             fontWeight: "bold",
             whiteSpace: 'nowrap'
         },
-        rowStyle: {
-            backgroundColor: "#dbca9e",
-            color: "#000000",
+        rowStyle: (rowData) => {
+            return {
+                backgroundColor: rowData.status === 'Remetido' ? "#D3D3D3" : rowData.status === 'Arquivado' ? "#C0C0C0" : "#dbca9e",
+                color: "#000000",
+            };
         }
     };
     
@@ -325,20 +171,20 @@ export const IpComponent = (props) => {
                             style={{ background:'#e4dbb1' }}
                             title={"INQUÉRITOS POLICIAIS " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
-                            data={intimacoes}
+                            data={ips}
                             actions={actions}
                             options={options}
                         />
                     </ThemeProvider>
                     
-                    <BasicModal open={open}
+                    <BasicModalIP open={open}
                         handleClose={handleClose}
-                        buscarIntimacoes={buscarIntimacoes}
-                        intimacaoSelecionada={intimacaoSelecionada} />
+                        buscarIPs={buscarIPs}
+                        ipSelecionado={ipSelecionado} />
 
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
-                        intimacaoSelecionada={intimacaoSelecionada} />
+                        ipSelecionado={ipSelecionado} />
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>
