@@ -41,13 +41,23 @@ export const IpComponent = (props) => {
             const listaIps = [];
             for (let i = 0; i < ip.length; i++) {
                 if (ip[i].ano === ano) {
+                    let dataAutuacaoTabela = "";
+                    let dataTemp = ip[i].dataAutuacao;
+                    dataTemp = dataTemp.split("-");
+                    dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+
+                    let dataRemessaTabela = "";
+                    let dataTemp1 = ip[i].dataAutuacao;
+                    dataTemp1 = dataTemp1.split("-");
+                    dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
+
                     const ipJSON = {
                         'id': ip[i].id,
                         'escrivao': ip[i].escrivao,
                         'numero': ip[i].numero,
                         'ano': ip[i].ano,
                         'dataAutuacao': ip[i].dataAutuacao,
-                        'dataAutuacaoTabela': formatDate(ip[i].dataAutuacao),
+                        'dataAutuacaoTabela': dataAutuacaoTabela,
                         'delito': ip[i].delito,
                         'delegado': ip[i].delegado,
                         'investigado': ip[i].investigado,
@@ -55,7 +65,7 @@ export const IpComponent = (props) => {
                         'origemBOOficio': ip[i].origemBOOficio,
                         'apreensao': ip[i].apreensao,
                         'dataRemessa': ip[i].dataRemessa,
-                        'dataRemessaTabela': formatDate(ip[i].dataRemessa),
+                        'dataRemessaTabela': dataRemessaTabela,
                         'numAutoForum': ip[i].numAutoForum,
                         'status': ip[i].status
                     };
@@ -71,12 +81,6 @@ export const IpComponent = (props) => {
             alert('IP excluído com sucesso!');
             buscarIPs();
         });
-    }
-
-    const formatDate = (data) => {
-        let dataTemp = data;
-        dataTemp = dataTemp.split("-");
-        return dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
     }
 
     const emitirCertidao = (rowData) => {
