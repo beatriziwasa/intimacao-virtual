@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/intimacao-virtual/static/css/main.b5dbb1d0.chunk.css",
-    "main.js": "/intimacao-virtual/static/js/main.8666f4af.chunk.js",
-    "main.js.map": "/intimacao-virtual/static/js/main.8666f4af.chunk.js.map",
-    "runtime-main.js": "/intimacao-virtual/static/js/runtime-main.60ebd406.js",
-    "runtime-main.js.map": "/intimacao-virtual/static/js/runtime-main.60ebd406.js.map",
-    "static/js/2.d5e750c9.chunk.js": "/intimacao-virtual/static/js/2.d5e750c9.chunk.js",
-    "static/js/2.d5e750c9.chunk.js.map": "/intimacao-virtual/static/js/2.d5e750c9.chunk.js.map",
-    "static/js/3.9f840056.chunk.js": "/intimacao-virtual/static/js/3.9f840056.chunk.js",
-    "static/js/3.9f840056.chunk.js.map": "/intimacao-virtual/static/js/3.9f840056.chunk.js.map",
+    "main.css": "/intimacao-virtual/static/css/main.3c141d6f.chunk.css",
+    "main.js": "/intimacao-virtual/static/js/main.a669f39c.chunk.js",
+    "main.js.map": "/intimacao-virtual/static/js/main.a669f39c.chunk.js.map",
+    "runtime-main.js": "/intimacao-virtual/static/js/runtime-main.65739935.js",
+    "runtime-main.js.map": "/intimacao-virtual/static/js/runtime-main.65739935.js.map",
+    "static/js/2.43dbd2d8.chunk.js": "/intimacao-virtual/static/js/2.43dbd2d8.chunk.js",
+    "static/js/2.43dbd2d8.chunk.js.map": "/intimacao-virtual/static/js/2.43dbd2d8.chunk.js.map",
+    "static/js/3.ceea561b.chunk.js": "/intimacao-virtual/static/js/3.ceea561b.chunk.js",
+    "static/js/3.ceea561b.chunk.js.map": "/intimacao-virtual/static/js/3.ceea561b.chunk.js.map",
     "static/js/4.00c0e2da.chunk.js": "/intimacao-virtual/static/js/4.00c0e2da.chunk.js",
     "static/js/4.00c0e2da.chunk.js.map": "/intimacao-virtual/static/js/4.00c0e2da.chunk.js.map",
     "static/js/5.86b2f608.chunk.js": "/intimacao-virtual/static/js/5.86b2f608.chunk.js",
@@ -16,18 +16,18 @@
     "static/js/6.a99f2823.chunk.js": "/intimacao-virtual/static/js/6.a99f2823.chunk.js",
     "static/js/6.a99f2823.chunk.js.map": "/intimacao-virtual/static/js/6.a99f2823.chunk.js.map",
     "index.html": "/intimacao-virtual/index.html",
-    "static/css/main.b5dbb1d0.chunk.css.map": "/intimacao-virtual/static/css/main.b5dbb1d0.chunk.css.map",
-    "static/js/2.d5e750c9.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/2.d5e750c9.chunk.js.LICENSE.txt",
-    "static/js/3.9f840056.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/3.9f840056.chunk.js.LICENSE.txt",
+    "static/css/main.3c141d6f.chunk.css.map": "/intimacao-virtual/static/css/main.3c141d6f.chunk.css.map",
+    "static/js/2.43dbd2d8.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/2.43dbd2d8.chunk.js.LICENSE.txt",
+    "static/js/3.ceea561b.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/3.ceea561b.chunk.js.LICENSE.txt",
     "static/js/4.00c0e2da.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/4.00c0e2da.chunk.js.LICENSE.txt",
     "static/js/5.86b2f608.chunk.js.LICENSE.txt": "/intimacao-virtual/static/js/5.86b2f608.chunk.js.LICENSE.txt",
     "static/media/logo-policial-civil.46adb87e.png": "/intimacao-virtual/static/media/logo-policial-civil.46adb87e.png",
     "static/media/whatsapp.1c997d6e.jpg": "/intimacao-virtual/static/media/whatsapp.1c997d6e.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.60ebd406.js",
-    "static/js/2.d5e750c9.chunk.js",
-    "static/css/main.b5dbb1d0.chunk.css",
-    "static/js/main.8666f4af.chunk.js"
+    "static/js/runtime-main.65739935.js",
+    "static/js/2.43dbd2d8.chunk.js",
+    "static/css/main.3c141d6f.chunk.css",
+    "static/js/main.a669f39c.chunk.js"
   ]
 }
