@@ -8,6 +8,7 @@ import { IntimacaoComponent } from "./components/IntimacaoComponent";
 import { Livro } from "./components/Livro";
 import { IpComponent } from "./components/IpComponent";
 import { TcComponent } from "./components/TcComponent";
+import { ApfComponent } from "./components/ApfComponent";
 import LoginDialog from './components/LoginDialog';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -57,6 +58,7 @@ export default function App() {
           <Route path="/livro/:proc" element = { <Livro loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="/ip/:ano" element = { <IpComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="/tc/:ano" element = { <TcComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/apf/:ano" element = { <ApfComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="*" element={<div>Erro 404 - Página não encontrada!</div>} />
         </Routes>
       </BrowserRouter>

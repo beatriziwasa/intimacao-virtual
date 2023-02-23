@@ -28,6 +28,9 @@ const googleAPIOptions = async (op, data, tipoProcedimento) => {
             case 'TC':
                 sheetId = 2;
                 break;
+            case 'APF':
+                sheetId = 3;
+                break;
             default:
                 break;
         }
@@ -83,6 +86,24 @@ const googleAPIOptions = async (op, data, tipoProcedimento) => {
                         rows[i].delito = data['delito'];
                         rows[i].delegado = data['delegado'];
                         rows[i].investigado = data['autor'];
+                        rows[i].vitima = data['vitima'];
+                        rows[i].origemBOOficio = data['origemBOOficio'];
+                        rows[i].numAutoForum = data['numAutoForum'];
+                        rows[i].dataRemessa = data['dataRemessa'];
+                        rows[i].apreensao = data['apreensao'];
+                        rows[i].status = data['status'];
+                        await rows[i].save();
+                        break;
+                    }
+                } else if (tipoProcedimento === 'APF') {
+                    if (rows[i].id === data['id']) {
+                        rows[i].escrivao = data['escrivao'];
+                        rows[i].numero = data['numero'];
+                        rows[i].ano = data['ano'];
+                        rows[i].dataAutuacao = data['dataAutuacao'];
+                        rows[i].delito = data['delito'];
+                        rows[i].delegado = data['delegado'];
+                        rows[i].investigado = data['conduzido'];
                         rows[i].vitima = data['vitima'];
                         rows[i].origemBOOficio = data['origemBOOficio'];
                         rows[i].numAutoForum = data['numAutoForum'];

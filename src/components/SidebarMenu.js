@@ -88,7 +88,7 @@ export default function SidebarMenu(props) {
                     <ListItemText primary={'Livro TC'} />
                 </ListItemButton>
             
-                <ListItemButton disabled={true} to={"/livro/apf"} component={Link}
+                <ListItemButton to={"/livro/apf"} component={Link}
                     sx={{
                         "&: hover": {
                             backgroundColor: '#1e293a'
