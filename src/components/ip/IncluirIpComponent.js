@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleAPI } from './GoogleAPI';
+import { GoogleAPI } from '../api/GoogleAPI';
 import _ from 'lodash';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const IncluirApfComponent = (props) => {
+export const IncluirIpComponent = (props) => {
     
     useEffect(() => {
-        setInputs(props.apfSelecionado);
-        setStatus(props.apfSelecionado.status);
-        setApreensao(props.apfSelecionado.apreensao);
-        setIdApf(props.apfSelecionado.id);
-    }, [props.apfSelecionado]);
+        setInputs(props.ipSelecionado);
+        setStatus(props.ipSelecionado.status);
+        setApreensao(props.ipSelecionado.apreensao);
+        setIdIp(props.ipSelecionado.id);
+    }, [props.ipSelecionado]);
 
     const [inputs, setInputs] = useState({});
     const [status, setStatus] = useState("");
     const [apreensao, setApreensao] = useState("Não");
-    const [idApf, setIdApf] = useState();
+    const [idIp, setIdIp] = useState();
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -35,7 +35,7 @@ export const IncluirApfComponent = (props) => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        salvarApf();
+        salvarIp();
     }
 
     const limpar = (event) => {
@@ -44,42 +44,42 @@ export const IncluirApfComponent = (props) => {
         setStatus("");
     }
 
-    async function salvarApf() {
-        let apf = {
+    async function salvarIp() {
+        let ip = {
             'escrivao': inputs.escrivao,
             'numero': inputs.numero,
             'ano': inputs.ano,
             'dataAutuacao': inputs.dataAutuacao,
             'delito': inputs.delito,
             'delegado': inputs.delegado,
-            'conduzido': inputs.conduzido,
+            'investigado': inputs.investigado,
             'vitima': inputs.vitima,
             'origemBOOficio': inputs.origemBOOficio,
-            'numAutoForum': inputs.numAutoForum,
-            'dataRemessa': inputs.dataRemessa,
             'apreensao': apreensao,
+            'dataRemessa': inputs.dataRemessa,
+            'numAutoForum': inputs.numAutoForum,
             'status': status,
         };
 
-        if (_.isNil(idApf)) { //Incluir
-            GoogleAPI.incluir(apf, 'APF').then(() => {
-                alert('APF incluído com sucesso!');
-                props.buscarAPFs();
+        if (_.isNil(idIp)) { //Incluir
+            GoogleAPI.incluir(ip, 'IP').then(() => {
+                alert('IP incluído com sucesso!');
+                props.buscarIPs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de inclusão do APF no sistema!');
+                alert('Erro de inclusão do IP no sistema!');
                 return;
             });
         } else { //Alterar
-            apf['id'] = idApf;
-            GoogleAPI.alterar(apf, 'APF').then(() => {
-                alert('APF alterado com sucesso!');
-                props.buscarAPFs();
+            ip['id'] = idIp;
+            GoogleAPI.alterar(ip, 'IP').then(() => {
+                alert('IP alterado com sucesso!');
+                props.buscarIPs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de alteração do APF no sistema!');
+                alert('Erro de alteração do IP no sistema!');
                 return;
             });
         }
@@ -113,9 +113,9 @@ export const IncluirApfComponent = (props) => {
                             value={inputs.vitima || ""} onChange={handleChange} />
                     </div>
                     <div className="campo">
-                        <label htmlFor="conduzido">Conduzido:</label>
-                        <input type="text" required id="conduzido" name="conduzido" size="35"
-                            value={inputs.conduzido || ""} onChange={handleChange} />
+                        <label htmlFor="investigado">Investigado:</label>
+                        <input type="text" required id="investigado" name="investigado" size="35"
+                            value={inputs.investigado || ""} onChange={handleChange} />
                     </div>
                 </fieldset>
                 

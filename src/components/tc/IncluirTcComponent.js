@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleAPI } from './GoogleAPI';
+import { GoogleAPI } from '../api/GoogleAPI';
 import _ from 'lodash';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const IncluirIpComponent = (props) => {
+export const IncluirTcComponent = (props) => {
     
     useEffect(() => {
-        setInputs(props.ipSelecionado);
-        setStatus(props.ipSelecionado.status);
-        setApreensao(props.ipSelecionado.apreensao);
-        setIdIp(props.ipSelecionado.id);
-    }, [props.ipSelecionado]);
+        setInputs(props.tcSelecionado);
+        setStatus(props.tcSelecionado.status);
+        setApreensao(props.tcSelecionado.apreensao);
+        setIdTc(props.tcSelecionado.id);
+    }, [props.tcSelecionado]);
 
     const [inputs, setInputs] = useState({});
     const [status, setStatus] = useState("");
     const [apreensao, setApreensao] = useState("Não");
-    const [idIp, setIdIp] = useState();
+    const [idTc, setIdTc] = useState();
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -35,7 +35,7 @@ export const IncluirIpComponent = (props) => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        salvarIp();
+        salvarTc();
     }
 
     const limpar = (event) => {
@@ -44,42 +44,42 @@ export const IncluirIpComponent = (props) => {
         setStatus("");
     }
 
-    async function salvarIp() {
-        let ip = {
+    async function salvarTc() {
+        let tc = {
             'escrivao': inputs.escrivao,
             'numero': inputs.numero,
             'ano': inputs.ano,
             'dataAutuacao': inputs.dataAutuacao,
             'delito': inputs.delito,
             'delegado': inputs.delegado,
-            'investigado': inputs.investigado,
+            'autor': inputs.autor,
             'vitima': inputs.vitima,
             'origemBOOficio': inputs.origemBOOficio,
-            'apreensao': apreensao,
-            'dataRemessa': inputs.dataRemessa,
             'numAutoForum': inputs.numAutoForum,
+            'dataRemessa': inputs.dataRemessa,
+            'apreensao': apreensao,
             'status': status,
         };
 
-        if (_.isNil(idIp)) { //Incluir
-            GoogleAPI.incluir(ip, 'IP').then(() => {
-                alert('IP incluído com sucesso!');
-                props.buscarIPs();
+        if (_.isNil(idTc)) { //Incluir
+            GoogleAPI.incluir(tc, 'TC').then(() => {
+                alert('TC incluído com sucesso!');
+                props.buscarTCs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de inclusão do IP no sistema!');
+                alert('Erro de inclusão do TC no sistema!');
                 return;
             });
         } else { //Alterar
-            ip['id'] = idIp;
-            GoogleAPI.alterar(ip, 'IP').then(() => {
-                alert('IP alterado com sucesso!');
-                props.buscarIPs();
+            tc['id'] = idTc;
+            GoogleAPI.alterar(tc, 'TC').then(() => {
+                alert('TC alterado com sucesso!');
+                props.buscarTCs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de alteração do IP no sistema!');
+                alert('Erro de alteração do TC no sistema!');
                 return;
             });
         }
@@ -113,9 +113,9 @@ export const IncluirIpComponent = (props) => {
                             value={inputs.vitima || ""} onChange={handleChange} />
                     </div>
                     <div className="campo">
-                        <label htmlFor="investigado">Investigado:</label>
-                        <input type="text" required id="investigado" name="investigado" size="35"
-                            value={inputs.investigado || ""} onChange={handleChange} />
+                        <label htmlFor="autor">Autor:</label>
+                        <input type="text" required id="autor" name="autor" size="35"
+                            value={inputs.autor || ""} onChange={handleChange} />
                     </div>
                 </fieldset>
                 

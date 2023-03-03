@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleAPI } from './GoogleAPI';
+import { GoogleAPI } from '../api/GoogleAPI';
 import _ from 'lodash';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const IncluirTcComponent = (props) => {
+export const IncluirApfComponent = (props) => {
     
     useEffect(() => {
-        setInputs(props.tcSelecionado);
-        setStatus(props.tcSelecionado.status);
-        setApreensao(props.tcSelecionado.apreensao);
-        setIdTc(props.tcSelecionado.id);
-    }, [props.tcSelecionado]);
+        setInputs(props.apfSelecionado);
+        setStatus(props.apfSelecionado.status);
+        setApreensao(props.apfSelecionado.apreensao);
+        setIdApf(props.apfSelecionado.id);
+    }, [props.apfSelecionado]);
 
     const [inputs, setInputs] = useState({});
     const [status, setStatus] = useState("");
     const [apreensao, setApreensao] = useState("Não");
-    const [idTc, setIdTc] = useState();
+    const [idApf, setIdApf] = useState();
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -35,7 +35,7 @@ export const IncluirTcComponent = (props) => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        salvarTc();
+        salvarApf();
     }
 
     const limpar = (event) => {
@@ -44,15 +44,15 @@ export const IncluirTcComponent = (props) => {
         setStatus("");
     }
 
-    async function salvarTc() {
-        let tc = {
+    async function salvarApf() {
+        let apf = {
             'escrivao': inputs.escrivao,
             'numero': inputs.numero,
             'ano': inputs.ano,
             'dataAutuacao': inputs.dataAutuacao,
             'delito': inputs.delito,
             'delegado': inputs.delegado,
-            'autor': inputs.autor,
+            'conduzido': inputs.conduzido,
             'vitima': inputs.vitima,
             'origemBOOficio': inputs.origemBOOficio,
             'numAutoForum': inputs.numAutoForum,
@@ -61,25 +61,25 @@ export const IncluirTcComponent = (props) => {
             'status': status,
         };
 
-        if (_.isNil(idTc)) { //Incluir
-            GoogleAPI.incluir(tc, 'TC').then(() => {
-                alert('TC incluído com sucesso!');
-                props.buscarTCs();
+        if (_.isNil(idApf)) { //Incluir
+            GoogleAPI.incluir(apf, 'APF').then(() => {
+                alert('APF incluído com sucesso!');
+                props.buscarAPFs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de inclusão do TC no sistema!');
+                alert('Erro de inclusão do APF no sistema!');
                 return;
             });
         } else { //Alterar
-            tc['id'] = idTc;
-            GoogleAPI.alterar(tc, 'TC').then(() => {
-                alert('TC alterado com sucesso!');
-                props.buscarTCs();
+            apf['id'] = idApf;
+            GoogleAPI.alterar(apf, 'APF').then(() => {
+                alert('APF alterado com sucesso!');
+                props.buscarAPFs();
                 props.handleClose();
             })
             .catch(err => {
-                alert('Erro de alteração do TC no sistema!');
+                alert('Erro de alteração do APF no sistema!');
                 return;
             });
         }
@@ -113,9 +113,9 @@ export const IncluirTcComponent = (props) => {
                             value={inputs.vitima || ""} onChange={handleChange} />
                     </div>
                     <div className="campo">
-                        <label htmlFor="autor">Autor:</label>
-                        <input type="text" required id="autor" name="autor" size="35"
-                            value={inputs.autor || ""} onChange={handleChange} />
+                        <label htmlFor="conduzido">Conduzido:</label>
+                        <input type="text" required id="conduzido" name="conduzido" size="35"
+                            value={inputs.conduzido || ""} onChange={handleChange} />
                     </div>
                 </fieldset>
                 

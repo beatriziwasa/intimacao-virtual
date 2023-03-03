@@ -2,24 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModalIP from './BasicModalIP';
-import BasicModalCertidao from './BasicModalCertidao';
-import { GoogleAPI } from './GoogleAPI';
-import BasicBreadcrumbs from './BasicBreadcrumbs';
-import SidebarMenu from './SidebarMenu';
+import BasicModalTC from '../modal/BasicModalTC';
+import BasicModalCertidao from '../modal/BasicModalCertidao';
+import { GoogleAPI } from '../api/GoogleAPI';
+import BasicBreadcrumbs from '../layout/BasicBreadcrumbs';
+import SidebarMenu from '../layout/SidebarMenu';
 
-export const IpComponent = (props) => {
+export const TcComponent = (props) => {
 
     useEffect(() => {
-        buscarIPs();
+        buscarTCs();
     }, []);
 
     const { ano } = useParams();
     
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
-    const [ips, setIPs] = useState([]);
-    const [ipSelecionado, setIPSelecionado] = useState({});
+    const [tcs, setTCs] = useState([]);
+    const [tcSelecionado, setTCSelecionado] = useState({});
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -27,73 +27,73 @@ export const IpComponent = (props) => {
     const handleCloseCertidao = () => setOpenCertidao(false);
 
     const handleAlterar = (rowData) => {
-        setIPSelecionado(rowData);
+        setTCSelecionado(rowData);
         handleOpen();
     }
 
     const handleIncluir = () => {
-        setIPSelecionado({});
+        setTCSelecionado({});
         handleOpen();
     }
     
-    const buscarIPs = () => {
-        GoogleAPI.consultar('IP').then((ip) => {
-            const listaIps = [];
-            for (let i = 0; i < ip.length; i++) {
-                if (ip[i].ano === ano) {
+    const buscarTCs = () => {
+        GoogleAPI.consultar('TC').then((tc) => {
+            const listaTcs = [];
+            for (let i = 0; i < tc.length; i++) {
+                if (tc[i].ano === ano) {
                     let dataAutuacaoTabela = "";
-                    let dataTemp = ip[i].dataAutuacao;
+                    let dataTemp = tc[i].dataAutuacao;
                     dataTemp = dataTemp.split("-");
                     dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = ip[i].dataAutuacao;
+                    let dataTemp1 = tc[i].dataAutuacao;
                     dataTemp1 = dataTemp1.split("-");
                     dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
 
-                    const ipJSON = {
-                        'id': ip[i].id,
-                        'escrivao': ip[i].escrivao,
-                        'numero': ip[i].numero,
-                        'ano': ip[i].ano,
-                        'numeroAno': ip[i].numero + '/' + ip[i].ano,
-                        'dataAutuacao': ip[i].dataAutuacao,
+                    const tcJSON = {
+                        'id': tc[i].id,
+                        'escrivao': tc[i].escrivao,
+                        'numero': tc[i].numero,
+                        'ano': tc[i].ano,
+                        'numeroAno': tc[i].numero + '/' + tc[i].ano,
+                        'dataAutuacao': tc[i].dataAutuacao,
                         'dataAutuacaoTabela': dataAutuacaoTabela,
-                        'delito': ip[i].delito,
-                        'delegado': ip[i].delegado,
-                        'investigado': ip[i].investigado,
-                        'vitima': ip[i].vitima,
-                        'origemBOOficio': ip[i].origemBOOficio,
-                        'apreensao': ip[i].apreensao,
-                        'dataRemessa': ip[i].dataRemessa,
+                        'delito': tc[i].delito,
+                        'delegado': tc[i].delegado,
+                        'autor': tc[i].autor,
+                        'vitima': tc[i].vitima,
+                        'origemBOOficio': tc[i].origemBOOficio,
+                        'numAutoForum': tc[i].numAutoForum,
+                        'dataRemessa': tc[i].dataRemessa,
                         'dataRemessaTabela': dataRemessaTabela,
-                        'numAutoForum': ip[i].numAutoForum,
-                        'status': ip[i].status
+                        'apreensao': tc[i].apreensao,
+                        'status': tc[i].status
                     };
-                    listaIps.push(ipJSON);
+                    listaTcs.push(tcJSON);
                 }
             }
-            setIPs(listaIps);
+            setTCs(listaTcs);
         });
     }
 
-    async function excluirIntimacoes(id) {
-        GoogleAPI.excluir(id, 'IP').then(() => {
-            alert('IP excluído com sucesso!');
-            buscarIPs();
+    async function excluirTC(id) {
+        GoogleAPI.excluir(id, 'TC').then(() => {
+            alert('TC excluído com sucesso!');
+            buscarTCs();
         });
     }
 
     const emitirCertidao = (rowData) => {
-        setIPSelecionado(rowData);
+        setTCSelecionado(rowData);
         handleOpenCertidao();
     }
 
     const defaultMaterialTheme = createTheme();
 
     const columns = [
-        { title: 'Nº/Ano', field: 'numeroAno', sorting: false, cellStyle: {
-            whiteSpace: 'nowrap', width: "3%"//, position: "sticky", left: 0, background: "#e4dbb1",
+        { title: 'Número/Ano', field: 'numeroAno', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap'//, position: "sticky", left: 0, background: "#e4dbb1",
         }},
         { title: 'Autuação', field: 'dataAutuacaoTabela', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
@@ -104,7 +104,7 @@ export const IpComponent = (props) => {
         { title: 'Vítima', field: 'vitima', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
-        { title: 'Investigado', field: 'investigado', sorting: false, cellStyle: {
+        { title: 'Autor', field: 'autor', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
         { title: 'Remessa', field: 'dataRemessaTabela', sorting: false, cellStyle: {
@@ -129,7 +129,7 @@ export const IpComponent = (props) => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este IP?') ? excluirIntimacoes(rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este TC?') ? excluirTC(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -161,26 +161,26 @@ export const IpComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"IP " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
+                    <BasicBreadcrumbs texto={"TC " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title={"INQUÉRITO POLICIAL " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
+                            title={"TERMO CIRCUNSTANCIADO " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
-                            data={ips}
+                            data={tcs}
                             actions={actions}
                             options={options}
                         />
                     </ThemeProvider>
                     
-                    <BasicModalIP open={open}
+                    <BasicModalTC open={open}
                         handleClose={handleClose}
-                        buscarIPs={buscarIPs}
-                        ipSelecionado={ipSelecionado} />
+                        buscarTCs={buscarTCs}
+                        tcSelecionado={tcSelecionado} />
 
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
-                        ipSelecionado={ipSelecionado} />
+                        tcSelecionado={tcSelecionado} />
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>

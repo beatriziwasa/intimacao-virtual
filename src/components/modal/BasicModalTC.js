@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { IncluirTcComponent } from './IncluirTcComponent';
+import { IncluirTcComponent } from '../tc/IncluirTcComponent';
 
 const style = {
   position: 'absolute',

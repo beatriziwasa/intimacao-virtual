@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { IncluirApfComponent } from './IncluirApfComponent';
+import { IncluirIntimacaoComponent } from '../intimacao/IncluirIntimacaoComponent';
 
 const style = {
   position: 'absolute',
@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModalAPF(props) {
+export default function BasicModal(props) {
   return (
     <div>
       <Modal
@@ -25,10 +25,10 @@ export default function BasicModalAPF(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-            <IncluirApfComponent
+            <IncluirIntimacaoComponent
               handleClose={props.handleClose} 
-              buscarAPFs={props.buscarAPFs}
-              apfSelecionado={props.apfSelecionado} />
+              buscarIntimacoes={props.buscarIntimacoes}
+              intimacaoSelecionada={props.intimacaoSelecionada} />
         </Box>
       </Modal>
     </div>

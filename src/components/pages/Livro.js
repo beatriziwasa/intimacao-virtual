@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useParams } from "react-router-dom";
 import { Select, MenuItem, Box } from '@mui/material/';
-import livroRegistro from '../livro-registro.jpg';
-import logoPCSC from '../logo-policial-civil.png';
-import SidebarMenu from './SidebarMenu';
+import livroRegistro from '../../images/livro-registro.jpg';
+import logoPCSC from '../../images/logo-policial-civil.png';
+import SidebarMenu from '../layout/SidebarMenu';
 
 export const Livro = (props) => {
     const { proc } = useParams();

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModal from './BasicModal';
-import BasicModalCertidao from './BasicModalCertidao';
-import { GoogleAPI } from './GoogleAPI';
+import BasicModal from '../modal/BasicModal';
+import BasicModalCertidao from '../modal/BasicModalCertidao';
+import { GoogleAPI } from '../api/GoogleAPI';
 import ApiCalendar from 'react-google-calendar-api';
-import BasicBreadcrumbs from './BasicBreadcrumbs';
-import SidebarMenu from './SidebarMenu';
+import BasicBreadcrumbs from '../layout/BasicBreadcrumbs';
+import SidebarMenu from '../layout/SidebarMenu';
 
 export const IntimacaoComponent = (props) => {
 
@@ -278,11 +278,11 @@ export const IntimacaoComponent = (props) => {
             tooltip: 'Alterar',
             onClick: (event, rowData) => handleAlterar(rowData)
         },
-        /*{
+        {
             icon: 'task',
             tooltip: 'Emitir certidão',
             onClick: (event, rowData) => emitirCertidao(rowData)
-        },*/
+        },
         {
             icon: 'delete',
             tooltip: 'Excluir',

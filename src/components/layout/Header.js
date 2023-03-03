@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography, makeStyles, Button } from "@material-ui/core";
 import React from "react";
-import logoPCSC from '../logo-policial-civil.png';
+import logoPCSC from '../../images/logo-policial-civil.png';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 

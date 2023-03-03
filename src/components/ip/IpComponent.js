@@ -2,24 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModalAPF from './BasicModalAPF';
-import BasicModalCertidao from './BasicModalCertidao';
-import { GoogleAPI } from './GoogleAPI';
-import BasicBreadcrumbs from './BasicBreadcrumbs';
-import SidebarMenu from './SidebarMenu';
+import BasicModalIP from '../modal/BasicModalIP';
+import BasicModalCertidao from '../modal/BasicModalCertidao';
+import { GoogleAPI } from '../api/GoogleAPI';
+import BasicBreadcrumbs from '../layout/BasicBreadcrumbs';
+import SidebarMenu from '../layout/SidebarMenu';
 
-export const ApfComponent = (props) => {
+export const IpComponent = (props) => {
 
     useEffect(() => {
-        buscarAPFs();
+        buscarIPs();
     }, []);
 
     const { ano } = useParams();
     
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
-    const [apfs, setAPFs] = useState([]);
-    const [apfSelecionado, setAPFSelecionado] = useState({});
+    const [ips, setIPs] = useState([]);
+    const [ipSelecionado, setIPSelecionado] = useState({});
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -27,73 +27,73 @@ export const ApfComponent = (props) => {
     const handleCloseCertidao = () => setOpenCertidao(false);
 
     const handleAlterar = (rowData) => {
-        setAPFSelecionado(rowData);
+        setIPSelecionado(rowData);
         handleOpen();
     }
 
     const handleIncluir = () => {
-        setAPFSelecionado({});
+        setIPSelecionado({});
         handleOpen();
     }
     
-    const buscarAPFs = () => {
-        GoogleAPI.consultar('APF').then((apf) => {
-            const listaApfs = [];
-            for (let i = 0; i < apf.length; i++) {
-                if (apf[i].ano === ano) {
+    const buscarIPs = () => {
+        GoogleAPI.consultar('IP').then((ip) => {
+            const listaIps = [];
+            for (let i = 0; i < ip.length; i++) {
+                if (ip[i].ano === ano) {
                     let dataAutuacaoTabela = "";
-                    let dataTemp = apf[i].dataAutuacao;
+                    let dataTemp = ip[i].dataAutuacao;
                     dataTemp = dataTemp.split("-");
                     dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = apf[i].dataAutuacao;
+                    let dataTemp1 = ip[i].dataAutuacao;
                     dataTemp1 = dataTemp1.split("-");
                     dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
 
-                    const apfJSON = {
-                        'id': apf[i].id,
-                        'escrivao': apf[i].escrivao,
-                        'numero': apf[i].numero,
-                        'ano': apf[i].ano,
-                        'numeroAno': apf[i].numero + '/' + apf[i].ano,
-                        'dataAutuacao': apf[i].dataAutuacao,
+                    const ipJSON = {
+                        'id': ip[i].id,
+                        'escrivao': ip[i].escrivao,
+                        'numero': ip[i].numero,
+                        'ano': ip[i].ano,
+                        'numeroAno': ip[i].numero + '/' + ip[i].ano,
+                        'dataAutuacao': ip[i].dataAutuacao,
                         'dataAutuacaoTabela': dataAutuacaoTabela,
-                        'delito': apf[i].delito,
-                        'delegado': apf[i].delegado,
-                        'conduzido': apf[i].conduzido,
-                        'vitima': apf[i].vitima,
-                        'origemBOOficio': apf[i].origemBOOficio,
-                        'numAutoForum': apf[i].numAutoForum,
-                        'dataRemessa': apf[i].dataRemessa,
+                        'delito': ip[i].delito,
+                        'delegado': ip[i].delegado,
+                        'investigado': ip[i].investigado,
+                        'vitima': ip[i].vitima,
+                        'origemBOOficio': ip[i].origemBOOficio,
+                        'apreensao': ip[i].apreensao,
+                        'dataRemessa': ip[i].dataRemessa,
                         'dataRemessaTabela': dataRemessaTabela,
-                        'apreensao': apf[i].apreensao,
-                        'status': apf[i].status
+                        'numAutoForum': ip[i].numAutoForum,
+                        'status': ip[i].status
                     };
-                    listaApfs.push(apfJSON);
+                    listaIps.push(ipJSON);
                 }
             }
-            setAPFs(listaApfs);
+            setIPs(listaIps);
         });
     }
 
-    async function excluirAPF(id) {
-        GoogleAPI.excluir(id, 'APF').then(() => {
-            alert('APF excluído com sucesso!');
-            buscarAPFs();
+    async function excluirIntimacoes(id) {
+        GoogleAPI.excluir(id, 'IP').then(() => {
+            alert('IP excluído com sucesso!');
+            buscarIPs();
         });
     }
 
     const emitirCertidao = (rowData) => {
-        setAPFSelecionado(rowData);
+        setIPSelecionado(rowData);
         handleOpenCertidao();
     }
 
     const defaultMaterialTheme = createTheme();
 
     const columns = [
-        { title: 'Número/Ano', field: 'numeroAno', sorting: false, cellStyle: {
-            whiteSpace: 'nowrap'//, position: "sticky", left: 0, background: "#e4dbb1",
+        { title: 'Nº/Ano', field: 'numeroAno', sorting: false, cellStyle: {
+            whiteSpace: 'nowrap', width: "3%"//, position: "sticky", left: 0, background: "#e4dbb1",
         }},
         { title: 'Autuação', field: 'dataAutuacaoTabela', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
@@ -104,7 +104,7 @@ export const ApfComponent = (props) => {
         { title: 'Vítima', field: 'vitima', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
-        { title: 'Conduzido', field: 'conduzido', sorting: false, cellStyle: {
+        { title: 'Investigado', field: 'investigado', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
         { title: 'Remessa', field: 'dataRemessaTabela', sorting: false, cellStyle: {
@@ -129,7 +129,7 @@ export const ApfComponent = (props) => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este APF?') ? excluirAPF(rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este IP?') ? excluirIntimacoes(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -161,26 +161,26 @@ export const ApfComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"APF " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
+                    <BasicBreadcrumbs texto={"IP " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title={"AUTO DE PRISÃO EM FLAGRANTE " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
+                            title={"INQUÉRITO POLICIAL " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
-                            data={apfs}
+                            data={ips}
                             actions={actions}
                             options={options}
                         />
                     </ThemeProvider>
                     
-                    <BasicModalAPF open={open}
+                    <BasicModalIP open={open}
                         handleClose={handleClose}
-                        buscarAPFs={buscarAPFs}
-                        apfSelecionado={apfSelecionado} />
+                        buscarIPs={buscarIPs}
+                        ipSelecionado={ipSelecionado} />
 
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
-                        apfSelecionado={apfSelecionado} />
+                        ipSelecionado={ipSelecionado} />
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>

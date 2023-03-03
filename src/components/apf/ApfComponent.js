@@ -2,24 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModalTC from './BasicModalTC';
-import BasicModalCertidao from './BasicModalCertidao';
-import { GoogleAPI } from './GoogleAPI';
-import BasicBreadcrumbs from './BasicBreadcrumbs';
-import SidebarMenu from './SidebarMenu';
+import BasicModalAPF from '../modal/BasicModalAPF';
+import BasicModalCertidao from '../modal/BasicModalCertidao';
+import { GoogleAPI } from '../api/GoogleAPI';
+import BasicBreadcrumbs from '../layout/BasicBreadcrumbs';
+import SidebarMenu from '../layout/SidebarMenu';
 
-export const TcComponent = (props) => {
+export const ApfComponent = (props) => {
 
     useEffect(() => {
-        buscarTCs();
+        buscarAPFs();
     }, []);
 
     const { ano } = useParams();
     
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
-    const [tcs, setTCs] = useState([]);
-    const [tcSelecionado, setTCSelecionado] = useState({});
+    const [apfs, setAPFs] = useState([]);
+    const [apfSelecionado, setAPFSelecionado] = useState({});
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -27,65 +27,65 @@ export const TcComponent = (props) => {
     const handleCloseCertidao = () => setOpenCertidao(false);
 
     const handleAlterar = (rowData) => {
-        setTCSelecionado(rowData);
+        setAPFSelecionado(rowData);
         handleOpen();
     }
 
     const handleIncluir = () => {
-        setTCSelecionado({});
+        setAPFSelecionado({});
         handleOpen();
     }
     
-    const buscarTCs = () => {
-        GoogleAPI.consultar('TC').then((tc) => {
-            const listaTcs = [];
-            for (let i = 0; i < tc.length; i++) {
-                if (tc[i].ano === ano) {
+    const buscarAPFs = () => {
+        GoogleAPI.consultar('APF').then((apf) => {
+            const listaApfs = [];
+            for (let i = 0; i < apf.length; i++) {
+                if (apf[i].ano === ano) {
                     let dataAutuacaoTabela = "";
-                    let dataTemp = tc[i].dataAutuacao;
+                    let dataTemp = apf[i].dataAutuacao;
                     dataTemp = dataTemp.split("-");
                     dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = tc[i].dataAutuacao;
+                    let dataTemp1 = apf[i].dataAutuacao;
                     dataTemp1 = dataTemp1.split("-");
                     dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
 
-                    const tcJSON = {
-                        'id': tc[i].id,
-                        'escrivao': tc[i].escrivao,
-                        'numero': tc[i].numero,
-                        'ano': tc[i].ano,
-                        'numeroAno': tc[i].numero + '/' + tc[i].ano,
-                        'dataAutuacao': tc[i].dataAutuacao,
+                    const apfJSON = {
+                        'id': apf[i].id,
+                        'escrivao': apf[i].escrivao,
+                        'numero': apf[i].numero,
+                        'ano': apf[i].ano,
+                        'numeroAno': apf[i].numero + '/' + apf[i].ano,
+                        'dataAutuacao': apf[i].dataAutuacao,
                         'dataAutuacaoTabela': dataAutuacaoTabela,
-                        'delito': tc[i].delito,
-                        'delegado': tc[i].delegado,
-                        'autor': tc[i].autor,
-                        'vitima': tc[i].vitima,
-                        'origemBOOficio': tc[i].origemBOOficio,
-                        'numAutoForum': tc[i].numAutoForum,
-                        'dataRemessa': tc[i].dataRemessa,
+                        'delito': apf[i].delito,
+                        'delegado': apf[i].delegado,
+                        'conduzido': apf[i].conduzido,
+                        'vitima': apf[i].vitima,
+                        'origemBOOficio': apf[i].origemBOOficio,
+                        'numAutoForum': apf[i].numAutoForum,
+                        'dataRemessa': apf[i].dataRemessa,
                         'dataRemessaTabela': dataRemessaTabela,
-                        'apreensao': tc[i].apreensao,
-                        'status': tc[i].status
+                        'apreensao': apf[i].apreensao,
+                        'status': apf[i].status
                     };
-                    listaTcs.push(tcJSON);
+                    listaApfs.push(apfJSON);
                 }
             }
-            setTCs(listaTcs);
+            setAPFs(listaApfs);
         });
     }
 
-    async function excluirTC(id) {
-        GoogleAPI.excluir(id, 'TC').then(() => {
-            alert('TC excluído com sucesso!');
-            buscarTCs();
+    async function excluirAPF(id) {
+        GoogleAPI.excluir(id, 'APF').then(() => {
+            alert('APF excluído com sucesso!');
+            buscarAPFs();
         });
     }
 
     const emitirCertidao = (rowData) => {
-        setTCSelecionado(rowData);
+        setAPFSelecionado(rowData);
         handleOpenCertidao();
     }
 
@@ -104,7 +104,7 @@ export const TcComponent = (props) => {
         { title: 'Vítima', field: 'vitima', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
-        { title: 'Autor', field: 'autor', sorting: false, cellStyle: {
+        { title: 'Conduzido', field: 'conduzido', sorting: false, cellStyle: {
             whiteSpace: 'nowrap'
         }},
         { title: 'Remessa', field: 'dataRemessaTabela', sorting: false, cellStyle: {
@@ -129,7 +129,7 @@ export const TcComponent = (props) => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este TC?') ? excluirTC(rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este APF?') ? excluirAPF(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -161,26 +161,26 @@ export const TcComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"TC " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
+                    <BasicBreadcrumbs texto={"APF " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title={"TERMO CIRCUNSTANCIADO " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
+                            title={"AUTO DE PRISÃO EM FLAGRANTE " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
-                            data={tcs}
+                            data={apfs}
                             actions={actions}
                             options={options}
                         />
                     </ThemeProvider>
                     
-                    <BasicModalTC open={open}
+                    <BasicModalAPF open={open}
                         handleClose={handleClose}
-                        buscarTCs={buscarTCs}
-                        tcSelecionado={tcSelecionado} />
+                        buscarAPFs={buscarAPFs}
+                        apfSelecionado={apfSelecionado} />
 
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
-                        tcSelecionado={tcSelecionado} />
+                        apfSelecionado={apfSelecionado} />
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>

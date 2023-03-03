@@ -5,9 +5,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import ip from '../ip.jpeg';
+import ip from '../../images/ip.jpeg';
 
-export default function LivroIPCard() {
+export default function CartorioVirtualCard() {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea component={RouterLink} to="/livro/ip">

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material/';
-import IntimacaoVirtualCard from './IntimacaoVirtualCard';
-import LivroIPCard from './LivroIPCard';
-import SidebarMenu from './SidebarMenu';
+import IntimacaoVirtualCard from '../card/IntimacaoVirtualCard';
+import CartorioVirtualCard from '../card/CartorioVirtualCard';
+import SidebarMenu from '../layout/SidebarMenu';
 
 export default function Home(props) {
     return (
@@ -15,7 +15,7 @@ export default function Home(props) {
                             <IntimacaoVirtualCard />
                         </Grid>
                         <Grid item xs={6}>
-                            <LivroIPCard />
+                            <CartorioVirtualCard />
                         </Grid>
                         </Grid>
                     </Box>

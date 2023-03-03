@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleAPI } from './GoogleAPI';
+import { GoogleAPI } from '../api/GoogleAPI';
 import _ from 'lodash';
 import ApiCalendar from 'react-google-calendar-api';
 import { gapi } from 'gapi-script';
