@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
+import _ from 'lodash';
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
 import BasicModalTC from '../modal/BasicModalTC';
@@ -43,13 +44,17 @@ export const TcComponent = (props) => {
                 if (tc[i].ano === ano) {
                     let dataAutuacaoTabela = "";
                     let dataTemp = tc[i].dataAutuacao;
-                    dataTemp = dataTemp.split("-");
-                    dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+                    if(!_.isEmpty(dataTemp)) {
+                        dataTemp = dataTemp.split("-");
+                        dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+                    }
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = tc[i].dataAutuacao;
-                    dataTemp1 = dataTemp1.split("-");
-                    dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
+                    let dataTemp1 = tc[i].dataRemessa;
+                    if(!_.isEmpty(dataTemp1)) {
+                        dataTemp1 = dataTemp1.split("-");
+                        dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
+                    }
 
                     const tcJSON = {
                         'id': tc[i].id,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
+import _ from 'lodash';
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
 import BasicModalIP from '../modal/BasicModalIP';
@@ -37,19 +38,23 @@ export const IpComponent = (props) => {
     }
     
     const buscarIPs = () => {
-        GoogleAPI.consultar('IP').then((ip) => {
+        GoogleAPI.consultar('IP').then((ip) => {console.log(ip);
             const listaIps = [];
             for (let i = 0; i < ip.length; i++) {
                 if (ip[i].ano === ano) {
                     let dataAutuacaoTabela = "";
                     let dataTemp = ip[i].dataAutuacao;
-                    dataTemp = dataTemp.split("-");
-                    dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+                    if(!_.isEmpty(dataTemp)) {
+                        dataTemp = dataTemp.split("-");
+                        dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
+                    }
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = ip[i].dataAutuacao;
-                    dataTemp1 = dataTemp1.split("-");
-                    dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
+                    let dataTemp1 = ip[i].dataRemessa;
+                    if(!_.isEmpty(dataTemp1)) {
+                        dataTemp1 = dataTemp1.split("-");
+                        dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
+                    }
 
                     const ipJSON = {
                         'id': ip[i].id,
