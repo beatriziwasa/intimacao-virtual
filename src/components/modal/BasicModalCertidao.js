@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import PdfDocument from '../pdf/PdfDocument';
+import PdfOficioPciMunicao from '../pdf/PdfOficioPciMunicao';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 
@@ -52,6 +53,18 @@ export default function BasicModalCertidao(props) {
                 >
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading..." : <><EventBusyIcon /> Certidão de Não Comparecimento do Intimado</>
+                  }
+                </PDFDownloadLink>
+              </div>
+          </fieldset>
+          <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
+              <div className="campo">
+                <PDFDownloadLink
+                  document={<PdfOficioPciMunicao oficio={props.intimacaoSelecionada} />}
+                  fileName={tituloCertidaoNaoComparecimento}
+                >
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Loading..." : <><EventBusyIcon /> Ofício Teste</>
                   }
                 </PDFDownloadLink>
               </div>

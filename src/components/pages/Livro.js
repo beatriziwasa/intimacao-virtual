@@ -8,7 +8,7 @@ import SidebarMenu from '../layout/SidebarMenu';
 export const Livro = (props) => {
     const { proc } = useParams();
     const [tipoProcedimento, setTipoProcedimento] = React.useState(proc);
-    const [ano, setAno] = React.useState("2023");
+    const [ano, setAno] = React.useState("2024");
     const link = "/" + tipoProcedimento + "/" + ano;
     
     const tiposProcedimentos = [
@@ -23,10 +23,18 @@ export const Livro = (props) => {
         {
             value: 'apf',
             label: 'APF',
-        }
+        }/*,
+        {
+            value: 'oficio',
+            label: 'Ofício'
+        }*/
     ]
 
     const anos = [
+        {
+            value: '2024',
+            label: '2024',
+        },
         {
             value: '2023',
             label: '2023',

@@ -9,6 +9,7 @@ import { Livro } from "./components/pages/Livro";
 import { IpComponent } from "./components/ip/IpComponent";
 import { TcComponent } from "./components/tc/TcComponent";
 import { ApfComponent } from "./components/apf/ApfComponent";
+import { OficioComponent } from "./components/oficio/OficioComponent";
 import LoginDialog from './components/login/LoginDialog';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -59,6 +60,7 @@ export default function App() {
           <Route path="/ip/:ano" element = { <IpComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="/tc/:ano" element = { <TcComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="/apf/:ano" element = { <ApfComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
+          <Route path="/oficio/:ano" element = { <OficioComponent loggedIn={loggedIn} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} /> } />
           <Route path="*" element={<div>Erro 404 - Página não encontrada!</div>} />
         </Routes>
       </BrowserRouter>

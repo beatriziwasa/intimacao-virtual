@@ -3,24 +3,24 @@ import { useParams } from 'react-router-dom'
 import _ from 'lodash';
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import BasicModalIP from '../modal/BasicModalIP';
+import BasicModalOficio from '../modal/BasicModalOficio';
 import BasicModalCertidao from '../modal/BasicModalCertidao';
 import { GoogleAPI } from '../api/GoogleAPI';
 import BasicBreadcrumbs from '../layout/BasicBreadcrumbs';
 import SidebarMenu from '../layout/SidebarMenu';
 
-export const IpComponent = (props) => {
+export const OficioComponent = (props) => {
 
     useEffect(() => {
-        buscarIPs();
+        buscarOficios();
     }, []);
 
     const { ano } = useParams();
     
     const [open, setOpen] = React.useState(false);
     const [openCertidao, setOpenCertidao] = React.useState(false);
-    const [ips, setIPs] = useState([]);
-    const [ipSelecionado, setIPSelecionado] = useState({});
+    const [oficios, setOficios] = useState([]);
+    const [oficioSelecionado, setOficioSelecionado] = useState({});
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -28,69 +28,69 @@ export const IpComponent = (props) => {
     const handleCloseCertidao = () => setOpenCertidao(false);
 
     const handleAlterar = (rowData) => {
-        setIPSelecionado(rowData);
+        setOficioSelecionado(rowData);
         handleOpen();
     }
 
     const handleIncluir = () => {
-        setIPSelecionado({});
+        setOficioSelecionado({});
         handleOpen();
     }
     
-    const buscarIPs = () => {
-        GoogleAPI.consultar('IP').then((ip) => {
-            const listaIps = [];
-            for (let i = 0; i < ip.length; i++) {
-                if (ip[i].ano === ano) {
+    const buscarOficios = () => {
+        GoogleAPI.consultar('Oficio').then((oficio) => {
+            const listaOficios = [];
+            for (let i = 0; i < oficio.length; i++) {
+                if (oficio[i].ano === ano) {
                     let dataAutuacaoTabela = "";
-                    let dataTemp = ip[i].dataAutuacao;
+                    let dataTemp = oficio[i].dataAutuacao;
                     if(!_.isEmpty(dataTemp)) {
                         dataTemp = dataTemp.split("-");
                         dataAutuacaoTabela = dataTemp[2].concat("/").concat(dataTemp[1]).concat("/").concat(dataTemp[0]);
                     }
 
                     let dataRemessaTabela = "";
-                    let dataTemp1 = ip[i].dataRemessa;
+                    let dataTemp1 = oficio[i].dataRemessa;
                     if(!_.isEmpty(dataTemp1)) {
                         dataTemp1 = dataTemp1.split("-");
                         dataRemessaTabela = dataTemp1[2].concat("/").concat(dataTemp1[1]).concat("/").concat(dataTemp1[0]);
                     }
 
-                    const ipJSON = {
-                        'id': ip[i].id,
-                        'escrivao': ip[i].escrivao,
-                        'numero': ip[i].numero,
-                        'ano': ip[i].ano,
-                        'numeroAno': ip[i].numero + '/' + ip[i].ano,
-                        'dataAutuacao': ip[i].dataAutuacao,
+                    const oficioJSON = {
+                        'id': oficio[i].id,
+                        'escrivao': oficio[i].escrivao,
+                        'numero': oficio[i].numero,
+                        'ano': oficio[i].ano,
+                        'numeroAno': oficio[i].numero + '/' + oficio[i].ano,
+                        'dataAutuacao': oficio[i].dataAutuacao,
                         'dataAutuacaoTabela': dataAutuacaoTabela,
-                        'delito': ip[i].delito,
-                        'delegado': ip[i].delegado,
-                        'investigado': ip[i].investigado,
-                        'vitima': ip[i].vitima,
-                        'origemBOOficio': ip[i].origemBOOficio,
-                        'apreensao': ip[i].apreensao,
-                        'dataRemessa': ip[i].dataRemessa,
+                        'delito': oficio[i].delito,
+                        'delegado': oficio[i].delegado,
+                        'investigado': oficio[i].investigado,
+                        'vitima': oficio[i].vitima,
+                        'origemBOOficio': oficio[i].origemBOOficio,
+                        'apreensao': oficio[i].apreensao,
+                        'dataRemessa': oficio[i].dataRemessa,
                         'dataRemessaTabela': dataRemessaTabela,
-                        'numAutoForum': ip[i].numAutoForum,
-                        'status': ip[i].status
+                        'numAutoForum': oficio[i].numAutoForum,
+                        'status': oficio[i].status
                     };
-                    listaIps.push(ipJSON);
+                    listaOficios.push(oficioJSON);
                 }
             }
-            setIPs(listaIps);
+            setOficios(listaOficios);
         });
     }
 
-    async function excluirIP(id) {
-        GoogleAPI.excluir(id, 'IP').then(() => {
-            alert('IP excluído com sucesso!');
-            buscarIPs();
+    async function excluirOficio(id) {
+        GoogleAPI.excluir(id, 'Oficio').then(() => {
+            alert('Ofício excluído com sucesso!');
+            buscarOficios();
         });
     }
 
     const emitirCertidao = (rowData) => {
-        setIPSelecionado(rowData);
+        setOficioSelecionado(rowData);
         handleOpenCertidao();
     }
 
@@ -134,7 +134,7 @@ export const IpComponent = (props) => {
         {
             icon: 'delete',
             tooltip: 'Excluir',
-            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este IP?') ? excluirIP(rowData.id) : undefined
+            onClick: (event, rowData) => window.confirm('Realmente deseja excluir este Ofício?') ? excluirOficio(rowData.id) : undefined
         },
         {
             icon: "add_box",
@@ -166,26 +166,26 @@ export const IpComponent = (props) => {
         <div>
             { props.loggedIn ? 
                 <div style={{ marginBottom: "20px" }}>
-                    <BasicBreadcrumbs texto={"IP " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
+                    <BasicBreadcrumbs texto={"Ofício " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')} />
                     <ThemeProvider theme={defaultMaterialTheme}>
                         <MaterialTable
                             style={{ background:'#e4dbb1' }}
-                            title={"INQUÉRITO POLICIAL " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
+                            title={"OFÍCIO " + JSON.stringify(ano).replace(/^"(.+(?="$))"$/, '$1')}
                             columns={columns}
-                            data={ips}
+                            data={oficios}
                             actions={actions}
                             options={options}
                         />
                     </ThemeProvider>
                     
-                    <BasicModalIP open={open}
+                    <BasicModalOficio open={open}
                         handleClose={handleClose}
-                        buscarIPs={buscarIPs}
-                        ipSelecionado={ipSelecionado} />
+                        buscarOficios={buscarOficios}
+                        oficioSelecionado={oficioSelecionado} />
 
                     <BasicModalCertidao open={openCertidao}
                         handleClose={handleCloseCertidao}
-                        ipSelecionado={ipSelecionado} />
+                        oficioSelecionado={oficioSelecionado} />
 
                     <SidebarMenu openDrawer={props.openDrawer} setOpenDrawer={props.setOpenDrawer} />
                 </div>
