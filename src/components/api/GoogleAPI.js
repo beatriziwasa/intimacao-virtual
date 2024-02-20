@@ -85,7 +85,7 @@ const googleAPIOptions = async (op, data, tipoProcedimento) => {
                         rows[i].dataAutuacao = data['dataAutuacao'];
                         rows[i].delito = data['delito'];
                         rows[i].delegado = data['delegado'];
-                        rows[i].investigado = data['autor'];
+                        rows[i].autor = data['autor'];
                         rows[i].vitima = data['vitima'];
                         rows[i].origemBOOficio = data['origemBOOficio'];
                         rows[i].numAutoForum = data['numAutoForum'];
@@ -103,7 +103,7 @@ const googleAPIOptions = async (op, data, tipoProcedimento) => {
                         rows[i].dataAutuacao = data['dataAutuacao'];
                         rows[i].delito = data['delito'];
                         rows[i].delegado = data['delegado'];
-                        rows[i].investigado = data['conduzido'];
+                        rows[i].conduzido = data['conduzido'];
                         rows[i].vitima = data['vitima'];
                         rows[i].origemBOOficio = data['origemBOOficio'];
                         rows[i].numAutoForum = data['numAutoForum'];
