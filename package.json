@@ -14,8 +14,6 @@
     "@mui/lab": "^5.0.0-alpha.83",
     "@mui/material": "^5.8.1",
     "@mui/styles": "^5.8.0",
-    "@react-pdf/font": "2.2.0",
-    "@react-pdf/renderer": "2.1.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -41,9 +39,6 @@
     "eject": "react-scripts eject"
   },
   "resolutions": {
-    "@react-pdf/font": "2.2.0",
-    "@react-pdf/pdfkit": "2.4.0",
-    "react-pdf/pdfjs-dist": "2.0.550"
   },
   "eslintConfig": {
     "extends": [

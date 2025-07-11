@@ -2,10 +2,10 @@ import React from "react";
 import _ from 'lodash';
 import moment from 'moment';
 import 'moment/locale/pt';
-import { Page, Document, Text, StyleSheet, Image, View } from "@react-pdf/renderer";
+//import { Page, Document, Text, StyleSheet, Image, View } from "@react-pdf/renderer";
 import logo from "../../images/logo-policial-civil.png";
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
     page: {
         backgroundColor: '#fff',
         fontFamily: 'Helvetica',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         padding: 5
     }
 });
-
+*/
 const formatDate = (date) => {
     let dataFormatada = null;
     if (!_.isNil(date)) {
@@ -79,7 +79,7 @@ const formatDateHour = (date, hour) => {
 const PdfDocument = ({ intimacao, tipo }) => {
     moment.locale('pt');
     return (
-        <Document>
+        {/*<Document>
             <Page size="A4" style={styles.page}>
                 <View style={styles.row}>
                     <View>
@@ -105,7 +105,7 @@ const PdfDocument = ({ intimacao, tipo }) => {
                     </View>
                 </View>
             </Page>
-        </Document>
+        </Document>*/}
     );
 }
 

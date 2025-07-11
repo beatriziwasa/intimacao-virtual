@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+//import { PDFDownloadLink } from '@react-pdf/renderer';
 import PdfDocument from '../pdf/PdfDocument';
 import PdfOficioPciMunicao from '../pdf/PdfOficioPciMunicao';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -35,38 +35,38 @@ export default function BasicModalCertidao(props) {
         <Box sx={style}>
           <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
               <div className="campo">
-                <PDFDownloadLink
+                {/*<PDFDownloadLink
                   document={<PdfDocument intimacao={props.intimacaoSelecionada} tipo={true} />}
                   fileName={tituloCertidaoRealizadaSucesso}
                 >
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading..." : <><DoneAllIcon /> Certidão da Intimação Realizada com Sucesso</>
                   }
-                </PDFDownloadLink>
+                </PDFDownloadLink>*/}
               </div>
           </fieldset>
           <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
               <div className="campo">
-                <PDFDownloadLink
+                {/*<PDFDownloadLink
                   document={<PdfDocument intimacao={props.intimacaoSelecionada} tipo={false} />}
                   fileName={tituloCertidaoNaoComparecimento}
                 >
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading..." : <><EventBusyIcon /> Certidão de Não Comparecimento do Intimado</>
                   }
-                </PDFDownloadLink>
+                </PDFDownloadLink>*/}
               </div>
           </fieldset>
           <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
               <div className="campo">
-                <PDFDownloadLink
+                {/*<PDFDownloadLink
                   document={<PdfOficioPciMunicao oficio={props.intimacaoSelecionada} />}
                   fileName={tituloCertidaoNaoComparecimento}
                 >
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading..." : <><EventBusyIcon /> Ofício Teste</>
                   }
-                </PDFDownloadLink>
+                </PDFDownloadLink>*/}
               </div>
           </fieldset>
         </Box>

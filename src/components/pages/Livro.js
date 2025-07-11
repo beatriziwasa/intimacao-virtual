@@ -14,7 +14,7 @@ export const Livro = (props) => {
 
     const { proc } = useParams();
     const [tipoProcedimento, setTipoProcedimento] = React.useState(proc);
-    const [ano, setAno] = React.useState("2024");
+    const [ano, setAno] = React.useState("2025");
     const [qtdIPsTramitando, setQtdIPsTramitando] = React.useState(0);
     const [qtdIPsRemetidos, setQtdIPsRemetidos] = React.useState(0);
     const [qtdIPsBaixados, setQtdIPsBaixados] = React.useState(0);
@@ -49,6 +49,10 @@ export const Livro = (props) => {
     ]
 
     const anos = [
+        {
+            value: '2025',
+            label: '2025'
+        },
         {
             value: '2024',
             label: '2024',

@@ -280,6 +280,7 @@ export const IncluirIntimacaoComponent = (props) => {
                             onChange={handleChangeSelectTipoProcedimento}>
                             <option value="">Selecione</option>
                             <option value="BO">Boletim de Ocorrência</option>
+                            <option value="VPI">Verificação Preliminar de Informação</option>
                             <option value="TC">Termo Circunstanciado</option>
                             <option value="IP">Inquérito Policial</option>
                             <option value="APF">Auto de Prisão em Flagrante</option>
