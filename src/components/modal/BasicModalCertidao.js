@@ -1,6 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import { jsPDF } from "jspdf";
+import PdfGenerator from '../pdf/PdfGenerator';
 //import { PDFDownloadLink } from '@react-pdf/renderer';
 import PdfDocument from '../pdf/PdfDocument';
 import PdfOficioPciMunicao from '../pdf/PdfOficioPciMunicao';
@@ -23,6 +25,14 @@ export default function BasicModalCertidao(props) {
 
   const tituloCertidaoRealizadaSucesso = "CertidaoIntimacaoRealizadaComSucesso.pdf";
   const tituloCertidaoNaoComparecimento = "CertidaoNaoComparecimentoIntimado.pdf";
+
+  const generatePdfCertidaoIntimacao = () => {
+    PdfGenerator(props.intimacaoSelecionada, true);
+  }
+
+  const generatePdfCertidaoNaoComparecimento = () => {
+    PdfGenerator(props.intimacaoSelecionada, false);
+  }
   
   return (
     <div>
@@ -35,6 +45,8 @@ export default function BasicModalCertidao(props) {
         <Box sx={style}>
           <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
               <div className="campo">
+                <div>Certidão da Intimação Realizada com Sucesso</div>
+                <button className="botao-secundario" onClick={generatePdfCertidaoIntimacao}>Gerar PDF</button>
                 {/*<PDFDownloadLink
                   document={<PdfDocument intimacao={props.intimacaoSelecionada} tipo={true} />}
                   fileName={tituloCertidaoRealizadaSucesso}
@@ -45,8 +57,11 @@ export default function BasicModalCertidao(props) {
                 </PDFDownloadLink>*/}
               </div>
           </fieldset>
+          <br></br>
           <fieldset className="grupo" style={{display: 'flex', justifyContent: 'center'}}>
               <div className="campo">
+                <div>Certidão de Não Comparecimento do Intimado</div>
+                <button className="botao-secundario" onClick={generatePdfCertidaoNaoComparecimento}>Gerar PDF</button>
                 {/*<PDFDownloadLink
                   document={<PdfDocument intimacao={props.intimacaoSelecionada} tipo={false} />}
                   fileName={tituloCertidaoNaoComparecimento}
