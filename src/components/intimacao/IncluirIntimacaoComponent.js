@@ -181,63 +181,79 @@ export const IncluirIntimacaoComponent = (props) => {
             });
 
         } else { //Alterar
-            apiCalendar.listEvents({ //Calendario de feriados
-                timeMin: dataHoraInicio.toISOString(),
-                timeMax: dataHoraFim.toISOString()
-            }, 'pt.brazilian#holiday@group.v.calendar.google.com').then(({ result }) => {
-                if (!_.isEmpty(result.items)) {
-                    alert('É feriado nessa data! É ' + result.items[0].summary + "!");
-                    return;
-                } else {
-                    apiCalendar.listEvents({ //Calendario do delegado
-                        timeMin: dataHoraInicio.toISOString(),
-                        timeMax: dataHoraFim.toISOString()
-                    }, 'scandolara.pcsc@gmail.com').then(({ result }) => {
-                        if (!_.isEmpty(result.items)) {
-                            alert('Já existe evento na agenda do delegado para esse horário!');
-                            return;
-                        } else {
-                            apiCalendar.listEvents({ //Calendario das oitivas
-                                timeMin: dataHoraInicio.toISOString(),
-                                timeMax: dataHoraFim.toISOString()
-                            }, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com').then(({ result }) => {
-                                if (!_.isEmpty(result.items)) {
-                                    alert('Já existe evento no calendário para esse horário!');
-                                    return;
-                                } else {
-                                    apiCalendar.updateEvent(event, intimacao.idCalendarEvent, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com')
-                                    .then(res => {
-                                        alert('Alteração no Google Calendar efetuada com sucesso!');
-                                        intimacao['id'] = idIntimacao;
-                                        GoogleAPI.alterar(intimacao, 'Intimacao').then(() => {
-                                            alert('Intimação alterada com sucesso!');
-                                            props.buscarIntimacoes();
-                                            props.handleClose();
-                                        })
-                                        .catch(err => {
-                                            alert('Erro de alteração no sistema de Intimação Virtual!');
-                                            return;
-                                        });
-                                    })
-                                    .catch((err) => {
-                                        alert('Erro de alteração no Google Calendar!');
-                                        return;
-                                    })
-                                }
-                            }).catch(err => {
-                                alert('Erro de listagem de eventos do Google Calendar! (calendário de oitivas)');
-                                return;
-                            });
-                        }
-                    }).catch(err => {
-                        alert('Erro de listagem de eventos do Google Calendar! (agenda do delegado)');
+            if ((props.intimacaoSelecionada.dataAudiencia === inputs.dataAudiencia) 
+                && (props.intimacaoSelecionada.horaAudiencia === inputs.horaAudiencia)) {
+                    
+                    intimacao['id'] = idIntimacao;
+                    GoogleAPI.alterar(intimacao, 'Intimacao').then(() => {
+                        alert('A intimação foi alterada com sucesso!');
+                        props.buscarIntimacoes();
+                        props.handleClose();
+                    })
+                    .catch(err => {
+                        alert('Erro de alteração no sistema de Intimação Virtual!');
                         return;
                     });
-                }
-            }).catch(err => {
-                alert('Erro de listagem de eventos do Google Calendar! (calendário de feriados)');
-                return;
-            });
+
+            } else {
+                apiCalendar.listEvents({ //Calendario de feriados
+                    timeMin: dataHoraInicio.toISOString(),
+                    timeMax: dataHoraFim.toISOString()
+                }, 'pt.brazilian#holiday@group.v.calendar.google.com').then(({ result }) => {
+                    if (!_.isEmpty(result.items)) {
+                        alert('É feriado nessa data! É ' + result.items[0].summary + "!");
+                        return;
+                    } else {
+                        apiCalendar.listEvents({ //Calendario do delegado
+                            timeMin: dataHoraInicio.toISOString(),
+                            timeMax: dataHoraFim.toISOString()
+                        }, 'scandolara.pcsc@gmail.com').then(({ result }) => {
+                            if (!_.isEmpty(result.items)) {
+                                alert('Já existe evento na agenda do delegado para esse horário!');
+                                return;
+                            } else {
+                                apiCalendar.listEvents({ //Calendario das oitivas
+                                    timeMin: dataHoraInicio.toISOString(),
+                                    timeMax: dataHoraFim.toISOString()
+                                }, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com').then(({ result }) => {
+                                    if (!_.isEmpty(result.items)) {
+                                        alert('Já existe evento no calendário para esse horário!');
+                                        return;
+                                    } else {
+                                        apiCalendar.updateEvent(event, intimacao.idCalendarEvent, 'tpfgaifi5bf5lsfn089nlc607k@group.calendar.google.com')
+                                        .then(res => {
+                                            alert('Alteração no Google Calendar efetuada com sucesso!');
+                                            intimacao['id'] = idIntimacao;
+                                            GoogleAPI.alterar(intimacao, 'Intimacao').then(() => {
+                                                alert('Intimação alterada com sucesso!');
+                                                props.buscarIntimacoes();
+                                                props.handleClose();
+                                            })
+                                            .catch(err => {
+                                                alert('Erro de alteração no sistema de Intimação Virtual!');
+                                                return;
+                                            });
+                                        })
+                                        .catch((err) => {
+                                            alert('Erro de alteração no Google Calendar!');
+                                            return;
+                                        })
+                                    }
+                                }).catch(err => {
+                                    alert('Erro de listagem de eventos do Google Calendar! (calendário de oitivas)');
+                                    return;
+                                });
+                            }
+                        }).catch(err => {
+                            alert('Erro de listagem de eventos do Google Calendar! (agenda do delegado)');
+                            return;
+                        });
+                    }
+                }).catch(err => {
+                    alert('Erro de listagem de eventos do Google Calendar! (calendário de feriados)');
+                    return;
+                });
+            }
         }
     }
 
