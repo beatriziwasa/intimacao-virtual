@@ -99,14 +99,14 @@ export const IncluirIntimacaoComponent = (props) => {
         }
 
         if (_.isNil(idIntimacao)) { //Incluir
-            apiCalendar.listEvents({ //Calendario de feriados
+            /*apiCalendar.listEvents({ //Calendario de feriados
                 timeMin: dataHoraInicio.toISOString(),
                 timeMax: dataHoraFim.toISOString()
             }, 'pt.brazilian#holiday@group.v.calendar.google.com').then(({ result }) => {
                 if (!_.isEmpty(result.items)) {
                     alert('É feriado nessa data! É ' + result.items[0].summary + "!");
                     return;
-                } else {
+                } else {*/
                     apiCalendar.listEvents({ //Calendario do delegado
                         timeMin: dataHoraInicio.toISOString(),
                         timeMax: dataHoraFim.toISOString()
@@ -174,11 +174,11 @@ export const IncluirIntimacaoComponent = (props) => {
                         alert('Erro de listagem de eventos do Google Calendar! (agenda do delegado)');
                         return;
                     });
-                }
+                /*}
             }).catch(err => {
                 alert('Erro de listagem de eventos do Google Calendar! (calendário de feriados)');
                 return;
-            });
+            });*/
 
         } else { //Alterar
             if ((props.intimacaoSelecionada.dataAudiencia === inputs.dataAudiencia) 
@@ -196,14 +196,14 @@ export const IncluirIntimacaoComponent = (props) => {
                     });
 
             } else {
-                apiCalendar.listEvents({ //Calendario de feriados
+                /*apiCalendar.listEvents({ //Calendario de feriados
                     timeMin: dataHoraInicio.toISOString(),
                     timeMax: dataHoraFim.toISOString()
                 }, 'pt.brazilian#holiday@group.v.calendar.google.com').then(({ result }) => {
                     if (!_.isEmpty(result.items)) {
                         alert('É feriado nessa data! É ' + result.items[0].summary + "!");
                         return;
-                    } else {
+                    } else {*/
                         apiCalendar.listEvents({ //Calendario do delegado
                             timeMin: dataHoraInicio.toISOString(),
                             timeMax: dataHoraFim.toISOString()
@@ -248,11 +248,11 @@ export const IncluirIntimacaoComponent = (props) => {
                             alert('Erro de listagem de eventos do Google Calendar! (agenda do delegado)');
                             return;
                         });
-                    }
+                    /*}
                 }).catch(err => {
                     alert('Erro de listagem de eventos do Google Calendar! (calendário de feriados)');
                     return;
-                });
+                });*/
             }
         }
     }
